@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VIGIL — Agentic Institution Intelligence & Coordination Platform | SIH 2026</title>
+  <meta name="description" content="VIGIL is an agentic institution intelligence and coordination platform for AICTE that unifies complaint tracking across RB, PGRC and other cells using the Institution DNA Engine, temporal graph intelligence, and predictive Risk DNA scoring.">
+  <meta name="keywords" content="VIGIL, AICTE, SIH 2026, Institution DNA Engine, complaint monitoring, agentic AI, Regulation Bureau, PGRC, decision support">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Introducing VIGIL | Team Clutch Crew — SIH 2026">
+  <meta property="og:description" content="Agentic Institution Intelligence & Coordination Platform for AICTE Bureaus/Cells (Problem Statement 26264).">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://vigil-ai-sih.vercel.app">
+  <meta property="og:site_name" content="VIGIL">
+
+  <!-- Favicon: VIGIL Institutional Network Shield Logo -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%232563eb'><path d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/></svg>">
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;550;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Ambient Glow Background -->
+  <div class="ambient-glow" aria-hidden="true"></div>
+
+  <!-- VIGIL Sticky Navigation Bar -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner container">
+      <div class="header-left">
+        <a href="#hero" class="brand-logo" aria-label="VIGIL Home">
+          <svg class="brand-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M2 17l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            <path d="M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+          </svg>
+          <span class="brand-name">VIGIL</span>
+        </a>
+      </div>
+
+      <nav class="nav-links" id="nav-menu">
+        <a href="#overview" class="nav-item">Overview</a>
+        <a href="#dna-engine" class="nav-item">DNA Engine</a>
+        <a href="#agentic-sandbox" class="nav-item">Agentic Demo</a>
+        <a href="#reasoning" class="nav-item">Reasoning Trace</a>
+        <a href="#benchmarks" class="nav-item">Evaluation</a>
+        <a href="#architecture" class="nav-item">Architecture</a>
+        <a href="#api" class="nav-item">API</a>
+        <a href="#safety" class="nav-item">Governance</a>
+      </nav>
+
+      <div class="header-right">
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="icon-btn" aria-label="Toggle light/dark theme" title="Toggle Theme">
+          <svg class="theme-icon sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+          </svg>
+          <svg class="theme-icon moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <!-- CTA Buttons -->
+        <a href="https://github.com/your-org/vigil-sih-26264" class="btn btn-secondary" target="_blank" rel="noopener">GitHub</a>
+        <a href="#agentic-sandbox" class="btn btn-primary">Explore Prototype</a>
+
+        <!-- Mobile Menu Toggle -->
+        <button id="mobile-toggle" class="icon-btn mobile-menu-btn" aria-label="Toggle navigation menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 12h18M3 6h18M3 18h18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+
+    <!-- Hero Article Header -->
+    <section class="hero-section" id="hero">
+      <div class="container hero-container">
+
+        <!-- Announcement Pill -->
+        <div class="pill-badge">
+          <span class="status-dot"></span>
+          <span class="pill-label">SMART INDIA HACKATHON 2026</span>
+          <span class="pill-sep">•</span>
+          <span class="pill-date">PS 26264</span>
+          <span class="pill-sep">•</span>
+          <span class="pill-label">SMART AUTOMATION</span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="hero-title">
+          Introducing <span class="gradient-text">VIGIL</span>
+        </h1>
+
+        <!-- Subtitle & Lead Paragraph -->
+        <p class="hero-subtitle">
+          An agentic institution intelligence and coordination platform designed to unify AICTE complaint tracking, identify cross-bureau overlaps, and transform fragmented institutional records into actionable intelligence.
+        </p>
+
+        <!-- Author Byline Strip -->
+        <div class="author-byline">
+          <span class="byline-label">By</span>
+          <span class="byline-author">Clutch Crew</span>
+          <span class="byline-sep">•</span>
+          <span class="byline-date">SIH 2026</span>
+        </div>
+
+        <!-- Metadata Strip (Strictly conforming to Section 7) -->
+        <div class="metadata-strip">
+          <div class="meta-item">
+            <span class="meta-label">PROJECT</span>
+            <span class="meta-value">VIGIL</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">CORE INNOVATION</span>
+            <span class="meta-value highlight-accent">Institution DNA Engine</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">PROBLEM STATEMENT</span>
+            <span class="meta-value">SIH 26264</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">ORGANIZATION</span>
+            <span class="meta-value">AICTE</span>
+          </div>
+        </div>
+
+        <!-- Primary Hero Action Buttons -->
+        <div class="hero-actions">
+          <a href="#dna-engine" class="btn btn-primary btn-large">
+            <span>Explore DNA Engine</span>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3l5 5-5 5"/></svg>
+          </a>
+          <a href="#architecture" class="btn btn-secondary btn-large">
+            <span>View Architecture</span>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" class="arrow-up-right"><path d="M4 12L12 4M5 4h7v7"/></svg>
+          </a>
+          <a href="#agentic-sandbox" class="btn btn-ghost btn-large" id="hero-system-card-link">
+            <span>Explore Prototype</span>
+          </a>
+        </div>
+
+        <!-- Hero Latent Geometry Visualizer Canvas -->
+        <div class="hero-visual-card">
+          <div class="canvas-header">
+            <div class="canvas-status">
+              <span class="dot live-dot"></span>
+              <span>VIGIL / INSTITUTION INTELLIGENCE NETWORK</span>
+              <span class="canvas-subtext" style="font-size: 11px; opacity: 0.7; margin-left: 8px; font-weight: normal;">• Interactive visualization — illustrative data</span>
+            </div>
+            <div class="canvas-controls">
+              <button id="canvas-density-btn" class="chip-btn active" data-mode="dense">Graph View</button>
+              <button id="canvas-energy-btn" class="chip-btn" data-mode="neural">Risk DNA Pulses</button>
+            </div>
+          </div>
+          <div class="canvas-wrapper">
+            <canvas id="hero-canvas" width="1200" height="420" aria-label="Interactive VIGIL temporal institution graph simulation"></canvas>
+            <div class="canvas-overlay-stats">
+              <div class="stat-bubble">
+                <span class="stat-number">Blue Nodes</span>
+                <span class="stat-label">Institution Profiles</span>
+              </div>
+              <div class="stat-bubble">
+                <span class="stat-number">Teal Links</span>
+                <span class="stat-label">Verified Relations</span>
+              </div>
+              <div class="stat-bubble">
+                <span class="stat-number">Amber Signals</span>
+                <span class="stat-label">Potential Overlaps</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section class="section-container" id="overview">
+      <div class="container">
+
+        <div class="section-header">
+          <span class="section-tag">OVERVIEW & PROBLEM STATEMENT</span>
+          <h2 class="section-title">A centralized decision-support platform for AICTE Bureaus/Cells</h2>
+          <p class="section-desc">
+            AICTE receives institution-related complaints through disparate channels — including the Regulation Bureau (RB), Public Grievance Redressal Cell (PGRC), and other specialized cells. VIGIL unites these records into a single institutional intelligence layer to eliminate duplicate investigations, detect cross-bureau overlaps in real time, and assist authorized AICTE officials with evidence-backed coordination.
+          </p>
+        </div>
+
+        <!-- Core Feature Cards Grid (Section 9 Priority Order) -->
+        <div class="features-grid" id="dna-engine">
+          <!-- Card 1: Core Innovation — Institution DNA Engine -->
+          <div class="feature-card">
+            <div class="card-icon-box" style="--card-accent: var(--accent-astra);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M12 2v4M12 18v4M2 12h4M18 12h4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+              </svg>
+            </div>
+            <h3 class="card-title">1. Institution DNA Engine (Core Innovation)</h3>
+            <p class="card-body">
+              VIGIL's flagship innovation resolves inconsistent institution names, abbreviations, and missing AICTE Permanent IDs across independent bureau complaints using a 4-stage hybrid matching pipeline.
+            </p>
+            <ul class="card-bullets">
+              <li><strong>Stage 1:</strong> Exact AICTE Permanent Institution ID matching</li>
+              <li><strong>Stage 2:</strong> RapidFuzz token scoring + Double Metaphone phonetic layer</li>
+              <li><strong>Stage 3:</strong> 384-dim Sentence-Transformers + pgvector cosine similarity</li>
+              <li><strong>Stage 4:</strong> Groq Llama LLM Judge for ambiguous candidate arbitration</li>
+            </ul>
+          </div>
+
+          <!-- Card 2: Cross-Bureau Overlap Intelligence -->
+          <div class="feature-card">
+            <div class="card-icon-box" style="--card-accent: var(--accent-sol);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+              </svg>
+            </div>
+            <h3 class="card-title">2. Cross-Bureau Overlap Intelligence</h3>
+            <p class="card-body">
+              Identifies multiple concurrent complaint investigations concerning the same institution across RB, PGRC, and other cells, auto-proposing shared War Room workspaces to prevent conflicting or duplicated effort.
+            </p>
+            <ul class="card-bullets">
+              <li>Dynamic temporal property graph with timestamped action edges</li>
+              <li>Automatic 30-day cross-bureau overlap detection heuristics</li>
+              <li>Shared War Room workspace with recommended lead bureau</li>
+              <li>Real-time Socket.io coordination notifications to nodal officers</li>
+            </ul>
+          </div>
+
+          <!-- Card 3: Institution Risk DNA Engine -->
+          <div class="feature-card">
+            <div class="card-icon-box" style="--card-accent: var(--accent-luna);">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 17l6-6-6-6"/>
+                <path d="M12 19h8"/>
+              </svg>
+            </div>
+            <h3 class="card-title">3. Institution Risk DNA Engine</h3>
+            <p class="card-body">
+              Computes an advisory institutional risk score (0–100) combining complaint frequency, severity, sentiment trends, cross-bureau overlap density, and resolution delays to flag emerging hotspots.
+            </p>
+            <ul class="card-bullets">
+              <li>Advisory indicators: GREEN (&lt;40), YELLOW (40–75), RED (&gt;75)</li>
+              <li>Prophet time-series complaint inflow trend forecasting</li>
+              <li>Auto-drafted Preemptive Intervention Briefings for RED institutions</li>
+              <li>Advisory decision-support — does not imply confirmed violations</li>
+            </ul>
+          </div>
+
+          <!-- Card 4: AI Complaint Co-Pilot -->
+          <div class="feature-card">
+            <div class="card-icon-box" style="--card-accent: #38bdf8;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <h3 class="card-title">4. AI Complaint Co-Pilot</h3>
+            <p class="card-body">
+              A natural-language conversational assistant empowering AICTE officers to query multi-bureau complaint records, track ageing trends, synthesize summaries, and draft coordination memos.
+            </p>
+            <ul class="card-bullets">
+              <li>Natural query parsing: "Show institutions with complaints across multiple bureaus"</li>
+              <li>Grounded RAG retrieval over canonical institution metadata</li>
+              <li>Drafts official coordination memos for human officer sign-off</li>
+              <li>Role-based query filtering ensuring bureau-level authorization</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Interactive Agentic Execution Sandbox (Section 10) -->
+    <section class="section-container bg-surface" id="agentic-sandbox">
+      <div class="container">
+
+        <div class="section-header">
+          <span class="section-tag">LIVE PROTOTYPE DEMONSTRATION</span>
+          <h2 class="section-title">Interactive sandbox: Multi-agent execution walkthrough</h2>
+          <p class="section-desc">
+            Simulate how VIGIL's agents canonicalize institution identities, traverse temporal graphs, detect overlaps, and calculate Risk DNA scores. <em>Illustrative workflow simulation using synthetic mock registry data.</em>
+          </p>
+        </div>
+
+        <!-- Scenario Selector Tabs -->
+        <div class="scenario-tabs-wrapper">
+          <div class="scenario-tabs" role="tablist">
+            <button class="scenario-tab active" data-scenario="dna" role="tab" id="tab-dna">
+              <span class="tab-indicator"></span>
+              <span class="tab-text">Institution DNA Matching</span>
+            </button>
+            <button class="scenario-tab" data-scenario="overlap" role="tab" id="tab-overlap">
+              <span class="tab-indicator"></span>
+              <span class="tab-text">Cross-Bureau Overlap Detection</span>
+            </button>
+            <button class="scenario-tab" data-scenario="risk" role="tab" id="tab-risk">
+              <span class="tab-indicator"></span>
+              <span class="tab-text">Institution Risk DNA</span>
+            </button>
+            <button class="scenario-tab" data-scenario="copilot" role="tab" id="tab-copilot">
+              <span class="tab-indicator"></span>
+              <span class="tab-text">AI Complaint Co-Pilot</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Sandbox Display Grid -->
+        <div class="sandbox-container">
+
+          <!-- Sandbox Header -->
+          <div class="sandbox-header">
+            <div class="sandbox-left">
+              <span class="status-indicator-badge" id="sandbox-status-badge">
+                <span class="dot pulse-dot"></span>
+                <span id="sandbox-status-text">Illustrative workflow simulation</span>
+              </span>
+              <span class="sandbox-title-text" id="sandbox-task-title">Task: Institution DNA Matching — Duplicate Case Across RB & PGRC</span>
+            </div>
+            <div class="sandbox-controls">
+              <button id="sandbox-play-btn" class="btn btn-primary btn-sm">
+                <svg viewBox="0 0 24 24" fill="currentColor" class="btn-icon"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span id="sandbox-play-text">Simulate Execution</span>
+              </button>
+              <button id="sandbox-reset-btn" class="btn btn-ghost btn-sm">Reset</button>
+            </div>
+          </div>
+
+          <!-- Dual Pane Interface -->
+          <div class="sandbox-body">
+
+            <!-- Left Pane: Step Ledger & Agent Graph -->
+            <div class="sandbox-steps-pane">
+              <div class="pane-title">
+                <span>AGENTIC EXECUTION GRAPH</span>
+                <span class="step-counter" id="step-counter">0 / 4 Steps</span>
+              </div>
+              <div class="steps-list" id="steps-list">
+                <!-- Dynamically populated steps -->
+              </div>
+            </div>
+
+            <!-- Right Pane: Live Console & Action Inspector -->
+            <div class="sandbox-terminal-pane">
+              <div class="terminal-bar">
+                <div class="window-dots">
+                  <span class="dot red"></span>
+                  <span class="dot yellow"></span>
+                  <span class="dot green"></span>
+                </div>
+                <div class="terminal-tabs">
+                  <span class="term-tab active" id="term-tab-console">Agent Logs</span>
+                  <span class="term-tab" id="term-tab-diff">Provenance / Audit</span>
+                  <span class="term-tab" id="term-tab-gui">Temporal Graph View</span>
+                </div>
+                <div class="term-timestamp" id="term-clock">10:42:18 UTC</div>
+              </div>
+              <div class="terminal-content" id="terminal-output">
+                <!-- Live logs emitted here -->
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Sandbox Footer Telemetry -->
+          <div class="sandbox-footer">
+            <div class="telemetry-item">
+              <span class="telem-label">PIPELINE STAGE:</span>
+              <span class="telem-val" id="telem-compute">384-dim embedding</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telem-label">OPERATIONS:</span>
+              <span class="telem-val" id="telem-tools">4 matching stages</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telem-label">VERDICT / STATUS:</span>
+              <span class="telem-val" id="telem-verify">Awaiting execution</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telem-label">SIMULATED TIME:</span>
+              <span class="telem-val" id="telem-time">0 ms</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Reasoning & Explainable Decision Trace (Section 11) -->
+    <section class="section-container" id="reasoning">
+      <div class="container">
+
+        <div class="section-header">
+          <span class="section-tag">EXPLAINABLE DECISION TRACE</span>
+          <h2 class="section-title">Auditable decision summaries for human-in-the-loop review</h2>
+          <p class="section-desc">
+            VIGIL never acts as an opaque black box. Every institution match recommendation, overlap trigger, and risk classification outputs an auditable decision summary detailing input signals, applied methods, supporting evidence, confidence score, and human review requirements.
+          </p>
+        </div>
+
+        <div class="reasoning-explorer-card">
+
+          <!-- Explorer Header Controls -->
+          <div class="explorer-header">
+            <div class="preset-pills">
+              <span class="preset-label">Sample Cases:</span>
+              <button class="pill-btn active" data-prompt="institution-match">Institution Matching (SVCE)</button>
+              <button class="pill-btn" data-prompt="overlap-routing">Overlap Coordination (RB & PGRC)</button>
+              <button class="pill-btn" data-prompt="risk-assessment">Risk Assessment (Trend & Outbreak)</button>
+            </div>
+            <div class="explorer-toggles">
+              <label class="switch-label">
+                <input type="checkbox" id="toggle-thinking" checked>
+                <span class="switch-slider"></span>
+                <span class="switch-text">Show Decision Trace</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Explorer Question Box -->
+          <div class="prompt-box">
+            <div class="prompt-badge">INCOMING COMPLAINT SIGNAL</div>
+            <p class="prompt-text" id="active-prompt-text">
+              "RB complaint #RB-2026-00142 names 'SVCE' and PGRC complaint #PGRC-2026-00089 names 'Sri Venkateswara College of Engineering, Chennai' — with no shared AICTE Permanent ID. Determine whether these refer to the same institution and justify the confidence score."
+            </p>
+          </div>
+
+          <!-- Decision Trace Accordion -->
+          <div class="thinking-container" id="thinking-container">
+            <div class="thinking-header" id="thinking-header-toggle">
+              <div class="thinking-header-left">
+                <span class="sparkle-icon">✦</span>
+                <span class="thinking-title">Explainable Decision Summary (Auditable Decision Trace)</span>
+                <span class="badge-tokens">Decision-Support Trace</span>
+              </div>
+              <div class="thinking-chevron">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
+            </div>
+            <div class="thinking-body" id="thinking-body-content">
+              <!-- Animated reasoning steps -->
+            </div>
+          </div>
+
+          <!-- Final Verified Output Box -->
+          <div class="final-output-box">
+            <div class="output-header">
+              <div class="output-badge">RECOMMENDED DECISION & SAFEGUARDS</div>
+              <button class="copy-btn" id="copy-response-btn" title="Copy response to clipboard">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span>Copy Summary</span>
+              </button>
+            </div>
+            <div class="output-content" id="output-text-area">
+              <!-- Verified response formatted here -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Comprehensive Evaluation Section (Section 12) -->
+    <section class="section-container bg-surface" id="benchmarks">
+      <div class="container">
+
+        <div class="section-header">
+          <span class="section-tag">EVALUATION METHODOLOGY & TARGETS</span>
+          <h2 class="section-title">Project evaluation targets & validation framework</h2>
+          <p class="section-desc">
+            Performance targets defined in the VIGIL system specification for the SIH 2026 evaluation. <em>Note: Stated percentages are target specifications to be verified on the synthetic benchmark dataset, not empirical baseline measurements.</em>
+          </p>
+        </div>
+
+        <!-- Filter tabs -->
+        <div class="benchmark-filter-bar">
+          <button class="bm-filter-btn active" data-category="all">All Metrics</button>
+          <button class="bm-filter-btn" data-category="matching">Matching & DNA</button>
+          <button class="bm-filter-btn" data-category="overlap">Overlap Detection</button>
+          <button class="bm-filter-btn" data-category="workflow">Workflow & SLAs</button>
+          <button class="bm-filter-btn" data-category="risk">Risk & Prediction</button>
+        </div>
+
+        <!-- Benchmark Matrix Grid -->
+        <div class="benchmark-grid" id="benchmark-grid">
+          <!-- Dynamically rendered comparison cards -->
+        </div>
+
+        <!-- Integrity Callout -->
+        <div class="eval-callout">
+          <div class="callout-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+              <polyline points="10 9 9 9 8 9"/>
+            </svg>
+          </div>
+          <div class="callout-text">
+            <h4>Evaluation Integrity & Scope Notice</h4>
+            <p>
+              VIGIL is an academic and hackathon prototype evaluated against synthetic AICTE complaint test sets. All listed metrics represent project target thresholds. No live government databases or private institutional records are accessed.
+            </p>
+          </div>
+          <div class="callout-action">
+            <button class="btn btn-secondary btn-sm" id="callout-card-btn">Download Evaluation Plan</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Architecture & Processing Layers (Section 13) -->
+    <section class="section-container" id="architecture">
+      <div class="container">
+
+        <div class="section-header">
+          <span class="section-tag">SYSTEM ARCHITECTURE</span>
+          <h2 class="section-title">Three coordinated processing layers</h2>
+          <p class="section-desc">
+            VIGIL structures its intelligence into three decoupled processing layers, coordinated via LangGraph and Postgres pgvector with strict role-based access control.
+          </p>
+        </div>
+
+        <div class="models-grid" id="models">
+
+          <!-- Layer 1: VIGIL DNA Core -->
+          <div class="model-tier-card featured">
+            <div class="tier-badge">CORE ENGINE</div>
+            <h3 class="tier-name">VIGIL DNA Core</h3>
+            <p class="tier-tagline">Institution identity canonicalization through a 4-stage hybrid matching pipeline.</p>
+            <div class="tier-pricing">
+              <span class="price-val">4-Stage</span>
+              <span class="price-unit">Exact → Fuzzy → Vector → LLM Judge</span>
+            </div>
+            <ul class="tier-features">
+              <li>AICTE Permanent ID exact index lookup</li>
+              <li>RapidFuzz token scoring & Double Metaphone phonetic matching</li>
+              <li>384-dim Sentence-Transformers + pgvector cosine similarity</li>
+              <li>Groq Llama LLM Judge for ambiguous candidate arbitration</li>
+              <li>Mandatory human-review routing for confidence &lt; 0.85</li>
+            </ul>
+            <a href="#agentic-sandbox" class="btn btn-primary btn-block">Explore DNA Engine</a>
+          </div>
+
+          <!-- Layer 2: VIGIL Coordinate -->
+          <div class="model-tier-card">
+            <div class="tier-badge sol">COORDINATION</div>
+            <h3 class="tier-name">VIGIL Coordinate</h3>
+            <p class="tier-tagline">Cross-bureau overlap intelligence, temporal complaint graph, and War Rooms.</p>
+            <div class="tier-pricing">
+              <span class="price-val">Graph</span>
+              <span class="price-unit">Multi-Bureau Temporal Traversal</span>
+            </div>
+            <ul class="tier-features">
+              <li>Temporal property graph linking institutions, complaints & bureau actions</li>
+              <li>30-day temporal overlap detection heuristics (RB ↔ PGRC)</li>
+              <li>Automated War Room workspace recommendations</li>
+              <li>Multi-bureau SLA monitoring and deadline escalation alerts</li>
+              <li>Systemic root-cause clustering and repeated grievance detection</li>
+            </ul>
+            <a href="#agentic-sandbox" class="btn btn-secondary btn-block">Explore Overlap Logic</a>
+          </div>
+
+          <!-- Layer 3: VIGIL Intelligence -->
+          <div class="model-tier-card">
+            <div class="tier-badge luna">INTELLIGENCE</div>
+            <h3 class="tier-name">VIGIL Intelligence</h3>
+            <p class="tier-tagline">Institutional Risk DNA, predictive analytics, and AI Complaint Co-Pilot.</p>
+            <div class="tier-pricing">
+              <span class="price-val">0–100</span>
+              <span class="price-unit">Configurable Risk DNA Scoring</span>
+            </div>
+            <ul class="tier-features">
+              <li>Multi-signal institutional Risk DNA scoring (GREEN / YELLOW / RED)</li>
+              <li>Prophet 30-day time-series complaint inflow trend forecasting</li>
+              <li>Natural-language query interface for AICTE nodal officers</li>
+              <li>Generative draft coordination memos & executive briefings</li>
+              <li>Immutable SHA-256 hash-chained event provenance</li>
+            </ul>
+            <a href="#agentic-sandbox" class="btn btn-secondary btn-block">Explore Co-Pilot</a>
+          </div>
+
+        </div>
+
+        <!-- Operational Workload Estimator (Section 14) -->
+        <div class="calculator-card" id="calculator">
+          <div class="calc-header">
+            <h4>Operational Workload & Verification Estimator</h4>
+            <span class="calc-sub">Estimate institutional matching verification workload and LLM arbitration requirements based on complaint volume</span>
+          </div>
+          <div class="calc-grid">
+            <div class="calc-inputs">
+              <div class="calc-field">
+                <label for="token-slider">Monthly Incoming Complaints: <span id="token-display">500 Cases</span></label>
+                <input type="range" id="token-slider" min="50" max="5000" value="500" step="50">
+              </div>
+              <div class="calc-field">
+                <label for="output-slider">Ambiguous Institution References (%): <span id="output-display">25%</span></label>
+                <input type="range" id="output-slider" min="5" max="75" value="25" step="1">
+              </div>
+              <div class="calc-field">
+                <label for="model-select">Selected Processing Workflow:</label>
+                <select id="model-select" class="calc-select">
+                  <option value="full" selected>Full Hybrid Pipeline (Exact + Fuzzy + Vector + LLM Judge)</option>
+                  <option value="vector">Vector Augmented (Exact + Fuzzy + Vector)</option>
+                  <option value="heuristic">Heuristic Only (Exact + Fuzzy + Phonetic)</option>
+                </select>
+              </div>
+            </div>
+            <div class="calc-results">
+              <div class="calc-stat">
+                <span class="stat-name">CASES REQUIRING MATCHING VERIFICATION</span>
+                <span class="stat-big" id="calc-cost-result">~125 cases</span>
+              </div>
+              <div class="calc-stat">
+                <span class="stat-name">ACTIVE WORKFLOW STAGES</span>
+                <span class="stat-medium" id="calc-throughput-result">4 Stages (Full)</span>
+              </div>
+              <div class="calc-stat">
+                <span class="stat-name">ESTIMATED LLM ARBITRATION REQUESTS</span>
+                <span class="stat-medium" id="calc-latency-result">~31 requests</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Developer API Playground (Section 15) -->
+    <section class="section-container bg-surface" id="api">
+      <div class="container">
+
+        <div class="section-header">
+          <span class="section-tag">PROPOSED API CONTRACT</span>
+          <h2 class="section-title">Developer quickstart: Institution resolution API</h2>
+          <p class="section-desc">
+            VIGIL exposes a FastAPI decision-support endpoint for institution identity resolution, cross-bureau overlap detection, and risk scoring.
+          </p>
+        </div>
+
+        <div class="api-demo-card">
+
+          <div class="api-card-header">
+            <div class="lang-tabs" role="tablist">
+              <button class="lang-tab active" data-lang="python">Python SDK</button>
+              <button class="lang-tab" data-lang="node">Node.js</button>
+              <button class="lang-tab" data-lang="curl">cURL REST</button>
+              <button class="lang-tab" data-lang="rust">TypeScript</button>
+            </div>
+            <button class="copy-btn" id="copy-code-btn" title="Copy code snippet">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span id="copy-code-text">Copy Code</span>
+            </button>
+          </div>
+
+          <div class="code-editor-area">
+            <pre class="code-pre"><code class="code-block" id="api-code-content"><!-- Code snippet injected here via app.js --></code></pre>
+          </div>
+
+          <div class="api-interactive-params">
+            <div class="param-item">
+              <span class="param-title">matching_depth</span>
+              <div class="pill-options" id="effort-options">
+                <button class="param-pill" data-effort="low">exact_only</button>
+                <button class="param-pill" data-effort="medium">fuzzy_phonetic</button>
+                <button class="param-pill active" data-effort="high">full_hybrid</button>
+                <button class="param-pill" data-effort="deep_tree">llm_judge_forced</button>
+              </div>
+            </div>
+            <div class="param-item">
+              <span class="param-title">llm_judge</span>
+              <div class="pill-options" id="computer-options">
+                <button class="param-pill active" data-computer="enabled">enabled</button>
+                <button class="param-pill" data-computer="disabled">disabled</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Governance, Safety & Safeguards (Section 16) -->
+    <section class="section-container" id="safety">
+      <div class="container">
+
+        <div class="section-header">
+          <span class="section-tag">GOVERNANCE & SAFEGUARDS</span>
+          <h2 class="section-title">Built with human-in-the-loop governance</h2>
+          <p class="section-desc">
+            VIGIL is an advisory decision-support platform. All final regulatory decisions, case disposals, and formal inter-bureau escalations remain solely with authorized AICTE officials.
+          </p>
+        </div>
+
+        <div class="safety-cards-grid">
+
+          <div class="safety-card">
+            <div class="safety-metric">100%</div>
+            <div class="safety-metric-title">Human Final Authority</div>
+            <p class="safety-metric-desc">
+              AICTE officials retain final regulatory, escalation, and complaint disposal decisions. AI assists with matching and recommendations only.
+            </p>
+          </div>
+
+          <div class="safety-card">
+            <div class="safety-metric">RBAC</div>
+            <div class="safety-metric-title">Role-Based Access Control</div>
+            <p class="safety-metric-desc">
+              Granular role-based controls ensure RB, PGRC, and other cells access only authorized institutional records and case histories.
+            </p>
+          </div>
+
+          <div class="safety-card">
+            <div class="safety-metric">SHA-256</div>
+            <div class="safety-metric-title">Immutable Audit Trail</div>
+            <p class="safety-metric-desc">
+              Every institution match, overlap alert, and officer decision is cryptographically chained for end-to-end traceability and tamper evidence.
+            </p>
+          </div>
+
+          <div class="safety-card">
+            <div class="safety-metric">&lt; 0.85</div>
+            <div class="safety-metric-title">Explainable Matching Gate</div>
+            <p class="safety-metric-desc">
+              Any match score below 0.85 confidence or with conflicting metadata is mandatorily held for human officer verification with evidence logs.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Download Documentation Banner -->
+        <div class="system-card-banner">
+          <div class="banner-content">
+            <h3>VIGIL Governance & System Architecture Card</h3>
+            <p>Read our comprehensive technical documentation detailing the Institution DNA Engine, multi-agent LangGraph orchestration, evaluation targets, and privacy-by-design safeguards.</p>
+          </div>
+          <div class="banner-btn-group">
+            <button class="btn btn-primary" id="btn-view-system-card">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Download System Card (PDF)</span>
+            </button>
+            <button class="btn btn-secondary" id="btn-view-eval-ledger">View Evaluation Plan</button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- VIGIL Minimalist Footer (Section 17) -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="brand-logo">
+            <svg class="brand-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L2 7l10 5 10-5-10-5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M2 17l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M2 12l10 5 10-5" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+            </svg>
+            <span class="brand-name">VIGIL</span>
+          </div>
+          <p class="footer-motto">
+            "One Institution. One Intelligence Layer. Coordinated Action."<br>
+            Smart India Hackathon 2026 prototype by Team Clutch Crew for the All India Council for Technical Education (AICTE — Regulation Bureau).
+          </p>
+          <div class="system-status-indicator">
+            <span class="status-dot-active"></span>
+            <span>Prototype Demonstration — Illustrative Data Mode</span>
+          </div>
+        </div>
+
+        <div class="footer-columns">
+          <div class="footer-col">
+            <span class="col-title">PROJECT</span>
+            <a href="#overview">Overview</a>
+            <a href="#dna-engine">DNA Engine</a>
+            <a href="#agentic-sandbox">Agentic Demo</a>
+            <a href="#benchmarks">Evaluation Targets</a>
+            <a href="#architecture">Architecture</a>
+            <a href="#safety">Governance</a>
+          </div>
+
+          <div class="footer-col">
+            <span class="col-title">RESOURCES</span>
+            <a href="#api">API Contract</a>
+            <a href="#safety" id="footer-doc-link">System Card (PDF)</a>
+            <a href="#agentic-sandbox">Live Sandbox</a>
+            <a href="https://github.com/your-org/vigil-sih-26264" target="_blank" rel="noopener">GitHub Repository</a>
+          </div>
+
+          <div class="footer-col">
+            <span class="col-title">PROBLEM STATEMENT</span>
+            <a href="https://www.sih.gov.in" target="_blank" rel="noopener">PS ID: 26264</a>
+            <a href="#overview">Organization: AICTE</a>
+            <a href="#overview">Dept: Regulation Bureau</a>
+            <a href="#overview">Theme: Smart Automation</a>
+            <a href="#overview">Category: Software</a>
+          </div>
+
+          <div class="footer-col">
+            <span class="col-title">TEAM CLUTCH CREW</span>
+            <a href="#overview">Team ID: 197488</a>
+            <a href="#overview">Smart India Hackathon 2026</a>
+            <a href="mailto:contact@vigil-aicte.org">Contact Team</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-legal">
+          <span>Team Clutch Crew &copy; 2026</span>
+          <span class="legal-sep">•</span>
+          <span>Built for Smart India Hackathon 2026</span>
+          <span class="legal-sep">•</span>
+          <span>Decision-Support System Prototype — Not for Official Production Use</span>
+        </div>
+        <div class="footer-socials">
+          <a href="https://github.com/your-org/vigil-sih-26264" aria-label="GitHub" class="social-link" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Modal for Documentation / System Card Preview -->
+  <div id="system-card-modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3>VIGIL Governance & System Architecture Card</h3>
+        <button class="modal-close-btn" id="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-badge-row">
+          <span class="badge">SIH 2026</span>
+          <span class="badge">PS ID: 26264</span>
+          <span class="badge">STATUS: TARGET SPECIFICATION</span>
+        </div>
+        <h4>Evaluation Targets & Confidence Safeguards</h4>
+        <p>VIGIL is evaluated against synthetic AICTE complaint benchmarks with the following project target criteria:</p>
+        <div class="modal-table-wrap">
+          <table class="modal-table">
+            <thead>
+              <tr><th>Evaluation Metric</th><th>Target Threshold</th><th>Validation Method</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Institution Matching Accuracy</td><td>&ge; 92%</td><td>4-Stage Hybrid DNA Engine</td><td>TARGET SPECIFICATION</td></tr>
+              <tr><td>Overlap Detection Precision</td><td>&ge; 88%</td><td>Temporal Graph Traversal</td><td>TARGET SPECIFICATION</td></tr>
+              <tr><td>False Positive Rate</td><td>&lt; 10%</td><td>Multi-stage Validation Filter</td><td>TARGET SPECIFICATION</td></tr>
+              <tr><td>Manual Review Reduction</td><td>&ge; 60%</td><td>Automated Canonical Resolution</td><td>TARGET SPECIFICATION</td></tr>
+              <tr><td>SLA Alert Timeliness</td><td>&lt; 30 sec</td><td>Redis Pub/Sub Event Queue</td><td>TARGET SPECIFICATION</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="modal-footer-note">This prototype uses synthetic AICTE registry data for demonstration purposes. No live government APIs are connected.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" id="modal-cancel-btn">Close</button>
+        <button class="btn btn-primary" id="modal-dl-btn">Download Full Specification (PDF)</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

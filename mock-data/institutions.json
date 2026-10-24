@@ -1,0 +1,79 @@
+[
+  {
+    "id": "e4a7c8b1-1234-4567-89ab-cdef01234567",
+    "name": "ABC Institute of Technology",
+    "aicte_permanent_id": "1-9820341",
+    "region": "Northern",
+    "state": "Uttar Pradesh",
+    "address": "Sector 62, Institutional Area, Noida, Uttar Pradesh 201309",
+    "lat": 28.6280,
+    "lng": 77.3649,
+    "risk_score": "RED"
+  },
+  {
+    "id": "f5b8d9c2-2345-5678-90bc-def012345678",
+    "name": "XYZ Engineering College",
+    "aicte_permanent_id": "1-8472910",
+    "region": "Western",
+    "state": "Maharashtra",
+    "address": "Mahakali Caves Road, Andheri East, Mumbai, Maharashtra 400093",
+    "lat": 19.1176,
+    "lng": 72.8631,
+    "risk_score": "AMBER"
+  },
+  {
+    "id": "a1c9e0d3-3456-6789-01cd-ef0123456789",
+    "name": "Sri Venkateswara College of Engineering",
+    "aicte_permanent_id": "1-3382914",
+    "region": "Southern",
+    "state": "Tamil Nadu",
+    "address": "Post Bag No.1, Pennalur Village, Sriperumbudur, Tamil Nadu 602117",
+    "lat": 12.9863,
+    "lng": 79.9722,
+    "risk_score": "GREEN"
+  },
+  {
+    "id": "b2dae1f4-4567-7890-12de-f01234567890",
+    "name": "Bengaluru Academy of Technology",
+    "aicte_permanent_id": "1-7719284",
+    "region": "South-Western",
+    "state": "Karnataka",
+    "address": "Electronic City Phase 1, Hosur Road, Bengaluru, Karnataka 560100",
+    "lat": 12.8452,
+    "lng": 77.6602,
+    "risk_score": "RED"
+  },
+  {
+    "id": "c3ebf2a5-5678-8901-23ef-012345678901",
+    "name": "Kolkata Institute of Engineering & Management",
+    "aicte_permanent_id": "1-5549102",
+    "region": "Eastern",
+    "state": "West Bengal",
+    "address": "Sector V, Salt Lake, Kolkata, West Bengal 700091",
+    "lat": 22.5867,
+    "lng": 88.4178,
+    "risk_score": "AMBER"
+  },
+  {
+    "id": "d4fc03b6-6789-9012-34f0-123456789012",
+    "name": "Pune College of Engineering & Research",
+    "aicte_permanent_id": "1-6628193",
+    "region": "Western",
+    "state": "Maharashtra",
+    "address": "Wakad-Hinjawadi Road, Pune, Maharashtra 411057",
+    "lat": 18.5912,
+    "lng": 73.7389,
+    "risk_score": "GREEN"
+  },
+  {
+    "id": "e5ad14c7-7890-0123-45a1-234567890123",
+    "name": "Hyderabad Institute of Technology & Science",
+    "aicte_permanent_id": "1-4492019",
+    "region": "South-Central",
+    "state": "Telangana",
+    "address": "HITEC City, Madhapur, Hyderabad, Telangana 500081",
+    "lat": 17.4474,
+    "lng": 78.3762,
+    "risk_score": "RED"
+  }
+]
