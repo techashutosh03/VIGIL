@@ -8,4 +8,4 @@ const path = require("path");
 
 // Ensure execution directory is the landing/ folder so all static files are resolved correctly
 process.chdir(path.join(__dirname, "landing"));
-require(path.join(__dirname, "landing", "server.js"));
+require(path.join(__dirname, "scripts", "landing-server.js"));

@@ -33,8 +33,8 @@ const handler = (req, res) => {
     return;
   }
 
-  let cleanUrl = req.url.split("?")[0];
-  let filePath = path.join(__dirname, cleanUrl === "/" ? "index.html" : cleanUrl);
+  const landingDir = path.join(__dirname, "..", "landing");
+  let filePath = path.join(landingDir, cleanUrl === "/" ? "index.html" : cleanUrl);
 
   const ext = path.extname(filePath);
   const contentType = mimeTypes[ext] || "application/octet-stream";
@@ -43,7 +43,7 @@ const handler = (req, res) => {
     if (err) {
       if (err.code === "ENOENT") {
         // Fallback to index.html for clean client-side routes (e.g. /docs, /dashboard-preview)
-        fs.readFile(path.join(__dirname, "index.html"), (fallbackErr, fallbackContent) => {
+        fs.readFile(path.join(landingDir, "index.html"), (fallbackErr, fallbackContent) => {
           if (fallbackErr) {
             res.writeHead(404, { "Content-Type": "text/html" });
             res.end("<h1>404 Not Found — VIGIL</h1>", "utf-8");
