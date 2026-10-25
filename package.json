@@ -2,14 +2,13 @@
   "name": "vigil",
   "version": "1.0.0",
   "description": "VIGIL — Agentic Institution Intelligence & Coordination Platform (SIH 2026 PS 26264)",
-  "main": "server.js",
   "scripts": {
     "dev": "./run.sh",
     "dev:all": "./run.sh",
     "dev:backend": "cd backend && python3 -m uvicorn app.main:app --reload --port 8000",
     "dev:frontend": "cd frontend && npm run dev",
-    "start": "node server.js",
-    "landing": "node server.js"
+    "start": "node scripts/landing-server.js",
+    "landing": "node scripts/landing-server.js"
   },
   "author": "Team Clutch Crew (Team ID: 197488)",
   "license": "MIT"
