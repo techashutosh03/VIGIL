@@ -1,5 +1,6 @@
 "use client";
 import { useEventStream } from "@/lib/useEventStream";
+import { LiveBadge } from "@/components/ui/LiveBadge";
 
 type AuditEntry = { action: string; hash: string; prevHash: string };
 
@@ -23,18 +24,25 @@ function* demoAudit(): Generator<AuditEntry> {
 }
 
 export default function AuditTicker() {
-  const entries = useEventStream<AuditEntry>("/api/v1/audit/stream", demoAudit, 2200);
+  const { events: entries, source } = useEventStream<AuditEntry>("/api/v1/audit/stream", demoAudit, 2200);
 
   return (
-    <div className="w-full overflow-hidden border-t border-slate-800 bg-black/90 py-2">
-      <div className="flex gap-8 animate-marquee whitespace-nowrap text-xs font-mono text-slate-500">
-        {entries.map((e, i) => (
-          <span key={i}>
-            <span className="text-teal-400">{e.action}</span>{" "}
-            <span className="text-slate-600">hash:{e.hash}</span>{" "}
-            <span className="text-slate-700">← prev:{e.prevHash}</span>
-          </span>
-        ))}
+    <div className="w-full border-t border-slate-800 bg-black/90 py-2">
+      <div className="flex items-center justify-between px-4 mb-1">
+        <span className="text-[10px] text-slate-600 uppercase tracking-wide">Hash-Chained Audit Ledger</span>
+        <LiveBadge source={source} />
+      </div>
+      <div className="overflow-hidden">
+        <div className="flex gap-8 animate-marquee whitespace-nowrap text-xs font-mono text-slate-500">
+          {entries.map((e, i) => (
+            <span key={i}>
+              <span className="text-teal-400">{e.action}</span>{" "}
+              <span className="text-slate-600">hash:{e.hash}</span>{" "}
+              <span className="text-slate-700">← prev:{e.prevHash}</span>
+            </span>
+          ))}
+          {entries.length === 0 && <span className="text-slate-700">Awaiting ledger entries…</span>}
+        </div>
       </div>
     </div>
   );

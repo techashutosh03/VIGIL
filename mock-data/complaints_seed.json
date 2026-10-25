@@ -1,46 +1,49 @@
 [
-  {
-    "id": "c1010000-0000-0000-0000-000000000101",
-    "institution_id": "e4a7c8b1-1234-4567-89ab-cdef01234567",
-    "raw_institution_name": "ABC Inst. of Tech, Noida",
-    "bureau": "RB",
-    "description": "Show-cause notice served regarding deficiencies in mechanical and computer laboratories exceeding statutory limits.",
-    "severity": "HIGH",
-    "state": "under-process",
-    "created_at": "2026-03-12T10:00:00Z",
-    "sla_deadline": "2026-03-15T10:00:00Z"
-  },
-  {
-    "id": "c2040000-0000-0000-0000-000000000204",
-    "institution_id": "e4a7c8b1-1234-4567-89ab-cdef01234567",
-    "raw_institution_name": "ABC Institute of Technology",
-    "bureau": "PGRC",
-    "description": "Student grievance alleging non-operational lab computers and software licensing shortfalls during semester examinations.",
-    "severity": "MEDIUM",
-    "state": "pending",
-    "created_at": "2026-03-14T11:30:00Z",
-    "sla_deadline": "2026-03-17T11:30:00Z"
-  },
-  {
-    "id": "c3050000-0000-0000-0000-000000000305",
-    "institution_id": "f5b8d9c2-2345-5678-90bc-def012345678",
-    "raw_institution_name": "XYZ Engg College Mumbai",
-    "bureau": "RB",
-    "description": "Grievance received alleging unapproved auxiliary tuition fee charges without State Fee Regulatory Committee assent.",
-    "severity": "HIGH",
-    "state": "under-process",
-    "created_at": "2026-03-01T09:15:00Z",
-    "sla_deadline": "2026-03-04T09:15:00Z"
-  },
-  {
-    "id": "c4010000-0000-0000-0000-000000000401",
-    "institution_id": "b2dae1f4-4567-7890-12de-f01234567890",
-    "raw_institution_name": "Bengaluru Academy of Tech",
-    "bureau": "Approvals",
-    "description": "Discrepancy identified in cadre ratio and mandatory professor-to-student statutory ratio during annual compliance verification.",
-    "severity": "CRITICAL",
-    "state": "escalated",
-    "created_at": "2026-02-20T14:00:00Z",
-    "sla_deadline": "2026-02-23T14:00:00Z"
-  }
+  { "id": "c-101", "raw_institution_name": "ABC Inst of Tech, Noida", "description": "Infrastructure non-compliance - lab equipment missing", "bureau": "RB", "institution_id": "inst-1", "severity": "HIGH", "state": "under-process" },
+  { "id": "c-102", "raw_institution_name": "ABC Institute Technology Noida", "description": "Faculty shortage complaint, same campus", "bureau": "PGRC", "institution_id": "inst-1", "severity": "HIGH", "state": "pending" },
+  { "id": "c-103", "raw_institution_name": "ABC Inst Tech", "description": "Fee irregularity reported by 40 students", "bureau": "Approvals", "institution_id": "inst-1", "severity": "CRITICAL", "state": "escalated" },
+
+  { "id": "c-201", "raw_institution_name": "XYZ Engg College Mumbai", "description": "Affiliation renewal pending documentation", "bureau": "RB", "institution_id": "inst-2", "severity": "MEDIUM", "state": "pending" },
+  { "id": "c-202", "raw_institution_name": "XYZ Engineering College, Andheri", "description": "Hostel safety grievance", "bureau": "PGRC", "institution_id": "inst-2", "severity": "MEDIUM", "state": "under-process" },
+
+  { "id": "c-301", "raw_institution_name": "PQR Polytechnic Chennai", "description": "Routine inspection - no issues", "bureau": "RB", "institution_id": "inst-3", "severity": "LOW", "state": "disposed" },
+
+  { "id": "c-401", "raw_institution_name": "National Inst Advanced Engg Kolkata", "description": "Library grant utilization query", "bureau": "RB", "institution_id": "inst-4", "severity": "LOW", "state": "pending" },
+
+  { "id": "c-501", "raw_institution_name": "Deccan College Mgmt Studies", "description": "Faculty qualification mismatch", "bureau": "RB", "institution_id": "inst-5", "severity": "MEDIUM", "state": "under-process" },
+  { "id": "c-502", "raw_institution_name": "Deccan Management Studies, Hyderabad", "description": "Admission process complaint", "bureau": "PGRC", "institution_id": "inst-5", "severity": "MEDIUM", "state": "pending" },
+
+  { "id": "c-601", "raw_institution_name": "Sahyadri School Engg Pune", "description": "Repeated fire-safety NOC violation", "bureau": "RB", "institution_id": "inst-6", "severity": "CRITICAL", "state": "escalated" },
+  { "id": "c-602", "raw_institution_name": "Sahyadri Engineering College", "description": "Student stipend non-disbursement", "bureau": "PGRC", "institution_id": "inst-6", "severity": "HIGH", "state": "under-process" },
+  { "id": "c-603", "raw_institution_name": "Sahyadri Engg, Kothrud", "description": "Placement data falsification allegation", "bureau": "Approvals", "institution_id": "inst-6", "severity": "CRITICAL", "state": "pending" },
+
+  { "id": "c-701", "raw_institution_name": "Bengal Inst Pharma Tech", "description": "Lab safety audit - compliant", "bureau": "RB", "institution_id": "inst-7", "severity": "LOW", "state": "disposed" },
+
+  { "id": "c-801", "raw_institution_name": "Karnataka Polytechnic Bengaluru", "description": "Faculty-student ratio violation", "bureau": "RB", "institution_id": "inst-8", "severity": "MEDIUM", "state": "pending" },
+  { "id": "c-802", "raw_institution_name": "Karnataka Poly College", "description": "Exam malpractice complaint", "bureau": "PGRC", "institution_id": "inst-8", "severity": "HIGH", "state": "under-process" },
+
+  { "id": "c-901", "raw_institution_name": "Rajasthan Inst Business Mgmt", "description": "Routine compliance check", "bureau": "RB", "institution_id": "inst-9", "severity": "LOW", "state": "disposed" },
+
+  { "id": "c-1001", "raw_institution_name": "Shivalik College Engg Dehradun", "description": "Unapproved intake expansion", "bureau": "RB", "institution_id": "inst-10", "severity": "CRITICAL", "state": "escalated" },
+  { "id": "c-1002", "raw_institution_name": "Shivalik Engineering College", "description": "Faculty salary non-payment, 3 months", "bureau": "PGRC", "institution_id": "inst-10", "severity": "CRITICAL", "state": "under-process" },
+
+  { "id": "c-1101", "raw_institution_name": "Coastal Inst Technology Vizag", "description": "Infrastructure grant misuse query", "bureau": "RB", "institution_id": "inst-11", "severity": "MEDIUM", "state": "pending" },
+  { "id": "c-1102", "raw_institution_name": "Coastal Institute Tech, Visakhapatnam", "description": "Ragging complaint from first-years", "bureau": "PGRC", "institution_id": "inst-11", "severity": "HIGH", "state": "under-process" },
+
+  { "id": "c-1201", "raw_institution_name": "Gujarat School Applied Sciences", "description": "Routine audit - no findings", "bureau": "RB", "institution_id": "inst-12", "severity": "LOW", "state": "disposed" },
+
+  { "id": "c-1301", "raw_institution_name": "Vindhya Inst Engg Tech Bhopal", "description": "Multiple fee-related student complaints", "bureau": "PGRC", "institution_id": "inst-13", "severity": "CRITICAL", "state": "escalated" },
+  { "id": "c-1302", "raw_institution_name": "Vindhya Institute Engineering", "description": "Affiliation suspension review", "bureau": "RB", "institution_id": "inst-13", "severity": "CRITICAL", "state": "under-process" },
+  { "id": "c-1303", "raw_institution_name": "Vindhya Engg Technology", "description": "Infrastructure violation repeated 2nd year", "bureau": "Approvals", "institution_id": "inst-13", "severity": "HIGH", "state": "pending" },
+
+  { "id": "c-1401", "raw_institution_name": "Northeast College Tech Guwahati", "description": "New lab approval request", "bureau": "RB", "institution_id": "inst-14", "severity": "LOW", "state": "pending" },
+
+  { "id": "c-1501", "raw_institution_name": "Lucknow Inst Mgmt Tech", "description": "Placement cell inactive complaint", "bureau": "PGRC", "institution_id": "inst-15", "severity": "MEDIUM", "state": "pending" },
+
+  { "id": "c-1601", "raw_institution_name": "Kerala Inst Marine Engg", "description": "Routine inspection, compliant", "bureau": "RB", "institution_id": "inst-16", "severity": "LOW", "state": "disposed" },
+
+  { "id": "c-1701", "raw_institution_name": "Odisha College Industrial Tech", "description": "Faculty vacancy non-disclosure", "bureau": "RB", "institution_id": "inst-17", "severity": "HIGH", "state": "under-process" },
+  { "id": "c-1702", "raw_institution_name": "Odisha Industrial Technology College", "description": "Student fee refund denial, 25 cases", "bureau": "PGRC", "institution_id": "inst-17", "severity": "CRITICAL", "state": "escalated" },
+
+  { "id": "c-1801", "raw_institution_name": "Himalayan Inst Computer Apps Shimla", "description": "Affiliation document discrepancy", "bureau": "RB", "institution_id": "inst-18", "severity": "MEDIUM", "state": "pending" }
 ]

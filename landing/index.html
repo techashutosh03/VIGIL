@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VIGIL — Agentic Institution Intelligence & Coordination Platform | SIH 2026</title>
-  <meta name="description" content="VIGIL is an agentic institution intelligence and coordination platform for AICTE that unifies complaint tracking across RB, PGRC and other cells using the Institution DNA Engine, temporal graph intelligence, and predictive Risk DNA scoring.">
-  <meta name="keywords" content="VIGIL, AICTE, SIH 2026, Institution DNA Engine, complaint monitoring, agentic AI, Regulation Bureau, PGRC, decision support">
+  <title>VIGIL — Institutional Intelligence & Multi-Bureau Coordination Platform | AICTE</title>
+  <meta name="description" content="VIGIL is an institutional intelligence and coordination platform for AICTE that unifies complaint tracking across RB, PGRC and other cells using the Institution DNA Engine, temporal graph intelligence, and predictive Risk DNA scoring.">
+  <meta name="keywords" content="VIGIL, AICTE, Institution DNA Engine, complaint monitoring, agentic AI, Regulation Bureau, PGRC, decision support">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="Introducing VIGIL | Team Clutch Crew — SIH 2026">
-  <meta property="og:description" content="Agentic Institution Intelligence & Coordination Platform for AICTE Bureaus/Cells (Problem Statement 26264).">
+  <meta property="og:title" content="VIGIL — Institutional Intelligence & Multi-Bureau Coordination Platform | AICTE">
+  <meta property="og:description" content="Centralized decision-support platform uniting complaint tracking, cross-bureau overlap detection, and predictive Risk DNA across AICTE cells.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://vigil-ai-sih.vercel.app">
+  <meta property="og:url" content="https://vigil-aicte.gov.in">
   <meta property="og:site_name" content="VIGIL">
 
   <!-- Favicon: VIGIL Institutional Network Shield Logo -->
@@ -25,6 +25,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+
 
   <!-- Ambient Glow Background -->
   <div class="ambient-glow" aria-hidden="true"></div>
@@ -44,11 +45,11 @@
       </div>
 
       <nav class="nav-links" id="nav-menu">
+        <a href="#bureau-portals" class="nav-item highlight-nav">All Portals</a>
         <a href="#overview" class="nav-item">Overview</a>
         <a href="#dna-engine" class="nav-item">DNA Engine</a>
-        <a href="#agentic-sandbox" class="nav-item">Agentic Demo</a>
-        <a href="#reasoning" class="nav-item">Reasoning Trace</a>
-        <a href="#benchmarks" class="nav-item">Evaluation</a>
+        <a href="#agentic-sandbox" class="nav-item">Pipeline</a>
+        <a href="#reasoning" class="nav-item">Reasoning</a>
         <a href="#architecture" class="nav-item">Architecture</a>
         <a href="#api" class="nav-item">API</a>
         <a href="#safety" class="nav-item">Governance</a>
@@ -67,8 +68,8 @@
         </button>
 
         <!-- CTA Buttons -->
-        <a href="https://github.com/your-org/vigil-sih-26264" class="btn btn-secondary" target="_blank" rel="noopener">GitHub</a>
-        <a href="#agentic-sandbox" class="btn btn-primary">Explore Prototype</a>
+        <a href="http://localhost:8000/docs" target="_blank" class="btn btn-secondary">API Docs ↗</a>
+        <a href="http://localhost:3001" target="_blank" class="btn btn-primary" title="Launch Officer Command Center in full window">🏛️ Officer Portal (:3001) ↗</a>
 
         <!-- Mobile Menu Toggle -->
         <button id="mobile-toggle" class="icon-btn mobile-menu-btn" aria-label="Toggle navigation menu">
@@ -86,15 +87,6 @@
     <section class="hero-section" id="hero">
       <div class="container hero-container">
 
-        <!-- Announcement Pill -->
-        <div class="pill-badge">
-          <span class="status-dot"></span>
-          <span class="pill-label">SMART INDIA HACKATHON 2026</span>
-          <span class="pill-sep">•</span>
-          <span class="pill-date">PS 26264</span>
-          <span class="pill-sep">•</span>
-          <span class="pill-label">SMART AUTOMATION</span>
-        </div>
 
         <!-- Headline -->
         <h1 class="hero-title">
@@ -103,49 +95,22 @@
 
         <!-- Subtitle & Lead Paragraph -->
         <p class="hero-subtitle">
-          An agentic institution intelligence and coordination platform designed to unify AICTE complaint tracking, identify cross-bureau overlaps, and transform fragmented institutional records into actionable intelligence.
+          An institutional intelligence and multi-bureau coordination platform designed to unify AICTE complaint tracking, identify cross-bureau overlaps, and transform fragmented institutional records into actionable intelligence.
         </p>
 
-        <!-- Author Byline Strip -->
-        <div class="author-byline">
-          <span class="byline-label">By</span>
-          <span class="byline-author">Clutch Crew</span>
-          <span class="byline-sep">•</span>
-          <span class="byline-date">SIH 2026</span>
-        </div>
-
-        <!-- Metadata Strip (Strictly conforming to Section 7) -->
-        <div class="metadata-strip">
-          <div class="meta-item">
-            <span class="meta-label">PROJECT</span>
-            <span class="meta-value">VIGIL</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">CORE INNOVATION</span>
-            <span class="meta-value highlight-accent">Institution DNA Engine</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">PROBLEM STATEMENT</span>
-            <span class="meta-value">SIH 26264</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">ORGANIZATION</span>
-            <span class="meta-value">AICTE</span>
-          </div>
-        </div>
 
         <!-- Primary Hero Action Buttons -->
         <div class="hero-actions">
-          <a href="#dna-engine" class="btn btn-primary btn-large">
-            <span>Explore DNA Engine</span>
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3l5 5-5 5"/></svg>
-          </a>
-          <a href="#architecture" class="btn btn-secondary btn-large">
-            <span>View Architecture</span>
+          <a href="http://localhost:3001" target="_blank" class="btn btn-primary btn-large" id="hero-launch-portal-btn">
+            <span>🏛️ Launch Officer Portal (:3001)</span>
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" class="arrow-up-right"><path d="M4 12L12 4M5 4h7v7"/></svg>
           </a>
-          <a href="#agentic-sandbox" class="btn btn-ghost btn-large" id="hero-system-card-link">
-            <span>Explore Prototype</span>
+          <a href="#command-center" class="btn btn-secondary btn-large">
+            <span>⤢ View Embedded Command Center</span>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3l5 5-5 5"/></svg>
+          </a>
+          <a href="#bureau-portals" class="btn btn-ghost btn-large">
+            <span>🌐 Browse All Bureau Portals</span>
           </a>
         </div>
 
@@ -155,10 +120,11 @@
             <div class="canvas-status">
               <span class="dot live-dot"></span>
               <span>VIGIL / INSTITUTION INTELLIGENCE NETWORK</span>
-              <span class="canvas-subtext" style="font-size: 11px; opacity: 0.7; margin-left: 8px; font-weight: normal;">• Interactive visualization — illustrative data</span>
+              <span class="canvas-subtext" style="font-size: 11px; opacity: 0.7; margin-left: 8px; font-weight: normal;">• Assembles "VIGIL" When Idle • Interactive Particle Swarm</span>
             </div>
             <div class="canvas-controls">
-              <button id="canvas-density-btn" class="chip-btn active" data-mode="dense">Graph View</button>
+              <button id="canvas-vigil-btn" class="chip-btn active" data-mode="vigil">Assemble "VIGIL"</button>
+              <button id="canvas-density-btn" class="chip-btn" data-mode="dense">Network Graph</button>
               <button id="canvas-energy-btn" class="chip-btn" data-mode="neural">Risk DNA Pulses</button>
             </div>
           </div>
@@ -252,7 +218,7 @@
             </p>
             <ul class="card-bullets">
               <li>Advisory indicators: GREEN (&lt;40), YELLOW (40–75), RED (&gt;75)</li>
-              <li>Prophet time-series complaint inflow trend forecasting</li>
+              <li>Time-series trend projection with 95% CI bands (Prophet-compatible interface)</li>
               <li>Auto-drafted Preemptive Intervention Briefings for RED institutions</li>
               <li>Advisory decision-support — does not imply confirmed violations</li>
             </ul>
@@ -281,15 +247,273 @@
       </div>
     </section>
 
+    <!-- AICTE MULTI-BUREAU PORTALS & OFFICER LAUNCH HUB -->
+    <section class="section-container portals-hub-section" id="bureau-portals">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="portal-badge-row">
+            <span class="section-tag">MULTI-BUREAU PLATFORM LAUNCHERS</span>
+            <span class="live-pill"><span class="dot-live"></span> 8 COORDINATED WORKSPACES ACTIVE</span>
+          </div>
+          <h2 class="section-title">AICTE Bureau Portals &amp; Officer Launch Hub</h2>
+          <p class="section-desc">
+            VIGIL provides dedicated, role-tailored portals for AICTE officials across the Regulation Bureau, Public Grievance Redressal Cell, Approval Bureau, and joint inquiry War Rooms. Launch any portal in a dedicated full window or switch the live embedded console below.
+          </p>
+        </div>
+
+        <div class="portals-grid">
+
+          <!-- Portal 1: Central Officer Command Center -->
+          <div class="portal-card flagship-portal" style="--portal-accent: #3b82f6;">
+            <div class="portal-card-header">
+              <span class="portal-badge bureau-central">CENTRAL PLATFORM</span>
+              <span class="portal-card-icon">🏛️</span>
+            </div>
+            <h3 class="portal-card-title">Officer Command Center</h3>
+            <p class="portal-card-desc">
+              Centralized decision-support console uniting all AICTE bureaus, real-time overlap alerts, 72h SLA daemon, and the AI Co-Pilot.
+            </p>
+            <div class="portal-card-actions">
+              <a href="http://localhost:3001" target="_blank" class="btn btn-primary btn-sm">
+                <span>⤢ Launch Portal (:3001)</span>
+              </a>
+              <button class="btn btn-ghost btn-sm btn-embed-portal" data-target-url="http://localhost:3001">
+                <span>View Embedded</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Portal 2: Regulation Bureau Portal -->
+          <div class="portal-card" style="--portal-accent: #ef4444;">
+            <div class="portal-card-header">
+              <span class="portal-badge bureau-rb">REGULATION BUREAU (RB)</span>
+              <span class="portal-card-icon">📋</span>
+            </div>
+            <h3 class="portal-card-title">Regulation Bureau Portal</h3>
+            <p class="portal-card-desc">
+              Statutory compliance investigations, infrastructure deficiency reviews, automated 72-hour SLA trackers, and formal inquiry memo drafts.
+            </p>
+            <div class="portal-card-actions">
+              <a href="http://localhost:3001/?bureau=RB" target="_blank" class="btn btn-secondary btn-sm">
+                <span>⤢ Launch RB Portal</span>
+              </a>
+              <button class="btn btn-ghost btn-sm btn-embed-portal" data-target-url="http://localhost:3001/?section=workflow">
+                <span>View Embedded</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Portal 3: PGRC Cell Portal -->
+          <div class="portal-card" style="--portal-accent: #f59e0b;">
+            <div class="portal-card-header">
+              <span class="portal-badge bureau-pgrc">GRIEVANCE CELL (PGRC)</span>
+              <span class="portal-card-icon">👥</span>
+            </div>
+            <h3 class="portal-card-title">Public Grievance Portal</h3>
+            <p class="portal-card-desc">
+              Student and faculty grievance intake, fee-refund arbitration, repeat offender clustering, and bilateral mediation tracking.
+            </p>
+            <div class="portal-card-actions">
+              <a href="http://localhost:3001/?bureau=PGRC" target="_blank" class="btn btn-secondary btn-sm">
+                <span>⤢ Launch PGRC Portal</span>
+              </a>
+              <button class="btn btn-ghost btn-sm btn-embed-portal" data-target-url="http://localhost:3001/?section=overlap">
+                <span>View Embedded</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Portal 4: Approval Bureau Portal -->
+          <div class="portal-card" style="--portal-accent: #14b8a6;">
+            <div class="portal-card-header">
+              <span class="portal-badge bureau-approvals">APPROVAL BUREAU</span>
+              <span class="portal-card-icon">📜</span>
+            </div>
+            <h3 class="portal-card-title">Approval &amp; Affiliation Portal</h3>
+            <p class="portal-card-desc">
+              AICTE Permanent ID verification, intake expansion checks, unapproved course alerts, and 4-tier Institution DNA entity matching.
+            </p>
+            <div class="portal-card-actions">
+              <a href="http://localhost:3001/?bureau=Approvals" target="_blank" class="btn btn-secondary btn-sm">
+                <span>⤢ Launch Approvals</span>
+              </a>
+              <button class="btn btn-ghost btn-sm btn-embed-portal" data-target-url="http://localhost:3001/?section=dna">
+                <span>View Embedded</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Portal 5: Bilateral War Room Workspace -->
+          <div class="portal-card" style="--portal-accent: #8b5cf6;">
+            <div class="portal-card-header">
+              <span class="portal-badge" style="background: rgba(139,92,246,0.15); color: #c4b5fd; border: 1px solid rgba(139,92,246,0.3);">INTER-BUREAU</span>
+              <span class="portal-card-icon">⚔️</span>
+            </div>
+            <h3 class="portal-card-title">Bilateral War Room Workspace</h3>
+            <p class="portal-card-desc">
+              Collaborative multi-bureau investigation workspace with shared evidence vault, lead bureau designation, and unified resolution sign-off.
+            </p>
+            <div class="portal-card-actions">
+              <a href="http://localhost:3001/?section=overlap" target="_blank" class="btn btn-secondary btn-sm">
+                <span>⤢ Launch War Room</span>
+              </a>
+              <button class="btn btn-ghost btn-sm btn-embed-portal" data-target-url="http://localhost:3001/?section=overlap">
+                <span>View Embedded</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Portal 6: Institutional Risk DNA & Radar -->
+          <div class="portal-card" style="--portal-accent: #ec4899;">
+            <div class="portal-card-header">
+              <span class="portal-badge" style="background: rgba(236,72,153,0.15); color: #f472b6; border: 1px solid rgba(236,72,153,0.3);">PREDICTIVE AI</span>
+              <span class="portal-card-icon">📊</span>
+            </div>
+            <h3 class="portal-card-title">Risk DNA &amp; Outbreak Radar</h3>
+            <p class="portal-card-desc">
+              Advisory 0–100 risk scoring, Prophet time-series trend forecasting with 95% CI bands, and geographic complaint hotspot heatmap.
+            </p>
+            <div class="portal-card-actions">
+              <a href="http://localhost:3001/?section=risk" target="_blank" class="btn btn-secondary btn-sm">
+                <span>⤢ Launch Risk Radar</span>
+              </a>
+              <button class="btn btn-ghost btn-sm btn-embed-portal" data-target-url="http://localhost:3001/?section=risk">
+                <span>View Embedded</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Portal 7: AI Complaint Co-Pilot -->
+          <div class="portal-card" style="--portal-accent: #06b6d4;">
+            <div class="portal-card-header">
+              <span class="portal-badge" style="background: rgba(6,182,212,0.15); color: #67e8f9; border: 1px solid rgba(6,182,212,0.3);">CONVERSATIONAL RAG</span>
+              <span class="portal-card-icon">🤖</span>
+            </div>
+            <h3 class="portal-card-title">AI Complaint Co-Pilot</h3>
+            <p class="portal-card-desc">
+              Natural-language regulatory search, automated grievance summarization, voice-activated intelligence, and Groq Llama token streaming.
+            </p>
+            <div class="portal-card-actions">
+              <a href="http://localhost:3001/?section=copilot" target="_blank" class="btn btn-secondary btn-sm">
+                <span>⤢ Launch AI Co-Pilot</span>
+              </a>
+              <button class="btn btn-ghost btn-sm btn-embed-portal" data-target-url="http://localhost:3001/?section=copilot">
+                <span>View Embedded</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Portal 8: FastAPI Gateway & Swagger Docs -->
+          <div class="portal-card" style="--portal-accent: #a855f7;">
+            <div class="portal-card-header">
+              <span class="portal-badge" style="background: rgba(168,85,247,0.15); color: #d8b4fe; border: 1px solid rgba(168,85,247,0.3);">GATEWAY API</span>
+              <span class="portal-card-icon">⚡</span>
+            </div>
+            <h3 class="portal-card-title">FastAPI Gateway Portal</h3>
+            <p class="portal-card-desc">
+              Interactive OpenAPI Swagger portal for programmatic integration with AICTE national servers, webhook subscriptions, and batch matching.
+            </p>
+            <div class="portal-card-actions">
+              <a href="http://localhost:8000/docs" target="_blank" class="btn btn-secondary btn-sm">
+                <span>⤢ Open Swagger (:8000)</span>
+              </a>
+              <a href="#api" class="btn btn-ghost btn-sm">
+                <span>API Sandbox</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- LIVE OFFICER COMMAND CENTER & WAR ROOM PORTAL (Port 3001 Integration) -->
+    <section class="section-container" id="command-center" style="padding-top: 20px;">
+      <div class="container">
+
+        <div class="section-header">
+          <div class="portal-badge-row">
+            <span class="section-tag">CENTRAL REGULATION &amp; PGRC PLATFORM</span>
+            <span class="live-pill"><span class="dot-live"></span> CONNECTED TO CENTRAL PORTAL (:3001)</span>
+          </div>
+          <h2 class="section-title">Centralized Multi-Bureau Officer Command Center</h2>
+          <p class="section-desc">
+            Directly operate the live VIGIL Officer Portal right inside this interface or launch dedicated windows for each bureau. Switch between workspaces below to inspect live data streams.
+          </p>
+
+          <div class="command-center-controls">
+            <a href="http://localhost:3001" target="_blank" class="btn btn-primary btn-sm" id="portal-full-window-btn">
+              <span>⤢ Open In Full Window</span>
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" class="arrow-up-right"><path d="M4 12L12 4M5 4h7v7"/></svg>
+            </a>
+            <button id="reload-iframe-btn" class="btn btn-ghost btn-sm">
+              <span>↻ Refresh Portal View</span>
+            </button>
+            <a href="#bureau-portals" class="btn btn-ghost btn-sm">
+              <span>🌐 View All Bureau Cards</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Embedded Live Portal Frame -->
+        <div class="embedded-portal-wrapper">
+          <div class="portal-window-bar">
+            <div class="portal-window-dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <div class="portal-address-bar">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              <span id="portal-address-text">http://localhost:3001 &bull; VIGIL Central Command Center Live</span>
+            </div>
+            <span class="portal-badge-connected">● LIVE SYSTEM READY</span>
+          </div>
+
+          <!-- Interactive Workspace / Bureau Switcher Tabs -->
+          <div class="portal-selector-bar" id="portal-selector-tabs">
+            <button class="portal-tab-chip active" data-url="http://localhost:3001">
+              <span>🏛️ Central Overview</span>
+            </button>
+            <button class="portal-tab-chip" data-url="http://localhost:3001/?section=workflow">
+              <span>📋 Regulation Bureau (RB)</span>
+            </button>
+            <button class="portal-tab-chip" data-url="http://localhost:3001/?section=overlap">
+              <span>👥 Grievance (PGRC) &amp; War Room</span>
+            </button>
+            <button class="portal-tab-chip" data-url="http://localhost:3001/?section=dna">
+              <span>📜 Approval Bureau &amp; DNA</span>
+            </button>
+            <button class="portal-tab-chip" data-url="http://localhost:3001/?section=risk">
+              <span>📊 Risk Radar &amp; Heatmap</span>
+            </button>
+            <button class="portal-tab-chip" data-url="http://localhost:3001/?section=copilot">
+              <span>🤖 AI Complaint Co-Pilot</span>
+            </button>
+            <button class="portal-tab-chip" data-url="http://localhost:3001/?section=audit">
+              <span>🔐 Audit &amp; Governance</span>
+            </button>
+          </div>
+
+          <div class="portal-iframe-container">
+            <iframe id="vigil-portal-iframe" src="http://localhost:3001" title="VIGIL Live Officer Command Center" loading="eager"></iframe>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
     <!-- Interactive Agentic Execution Sandbox (Section 10) -->
     <section class="section-container bg-surface" id="agentic-sandbox">
       <div class="container">
 
         <div class="section-header">
-          <span class="section-tag">LIVE PROTOTYPE DEMONSTRATION</span>
-          <h2 class="section-title">Interactive sandbox: Multi-agent execution walkthrough</h2>
+          <span class="section-tag">MULTI-AGENT COORDINATION ENGINE</span>
+          <h2 class="section-title">Autonomous Multi-Agent Coordination Pipeline</h2>
           <p class="section-desc">
-            Simulate how VIGIL's agents canonicalize institution identities, traverse temporal graphs, detect overlaps, and calculate Risk DNA scores. <em>Illustrative workflow simulation using synthetic mock registry data.</em>
+            Experience how VIGIL's autonomous agents canonicalize institution identities, traverse temporal graph relations, detect cross-bureau overlaps, and evaluate Risk DNA scores in real-time.
           </p>
         </div>
 
@@ -323,14 +547,14 @@
             <div class="sandbox-left">
               <span class="status-indicator-badge" id="sandbox-status-badge">
                 <span class="dot pulse-dot"></span>
-                <span id="sandbox-status-text">Illustrative workflow simulation</span>
+                <span id="sandbox-status-text">Autonomous Multi-Agent Pipeline</span>
               </span>
               <span class="sandbox-title-text" id="sandbox-task-title">Task: Institution DNA Matching — Duplicate Case Across RB & PGRC</span>
             </div>
             <div class="sandbox-controls">
               <button id="sandbox-play-btn" class="btn btn-primary btn-sm">
                 <svg viewBox="0 0 24 24" fill="currentColor" class="btn-icon"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                <span id="sandbox-play-text">Simulate Execution</span>
+                <span id="sandbox-play-text">Run Coordination Pipeline</span>
               </button>
               <button id="sandbox-reset-btn" class="btn btn-ghost btn-sm">Reset</button>
             </div>
@@ -472,64 +696,13 @@
       </div>
     </section>
 
-    <!-- Comprehensive Evaluation Section (Section 12) -->
-    <section class="section-container bg-surface" id="benchmarks">
-      <div class="container">
-
-        <div class="section-header">
-          <span class="section-tag">EVALUATION METHODOLOGY & TARGETS</span>
-          <h2 class="section-title">Project evaluation targets & validation framework</h2>
-          <p class="section-desc">
-            Performance targets defined in the VIGIL system specification for the SIH 2026 evaluation. <em>Note: Stated percentages are target specifications to be verified on the synthetic benchmark dataset, not empirical baseline measurements.</em>
-          </p>
-        </div>
-
-        <!-- Filter tabs -->
-        <div class="benchmark-filter-bar">
-          <button class="bm-filter-btn active" data-category="all">All Metrics</button>
-          <button class="bm-filter-btn" data-category="matching">Matching & DNA</button>
-          <button class="bm-filter-btn" data-category="overlap">Overlap Detection</button>
-          <button class="bm-filter-btn" data-category="workflow">Workflow & SLAs</button>
-          <button class="bm-filter-btn" data-category="risk">Risk & Prediction</button>
-        </div>
-
-        <!-- Benchmark Matrix Grid -->
-        <div class="benchmark-grid" id="benchmark-grid">
-          <!-- Dynamically rendered comparison cards -->
-        </div>
-
-        <!-- Integrity Callout -->
-        <div class="eval-callout">
-          <div class="callout-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-              <polyline points="14 2 14 8 20 8"/>
-              <line x1="16" y1="13" x2="8" y2="13"/>
-              <line x1="16" y1="17" x2="8" y2="17"/>
-              <polyline points="10 9 9 9 8 9"/>
-            </svg>
-          </div>
-          <div class="callout-text">
-            <h4>Evaluation Integrity & Scope Notice</h4>
-            <p>
-              VIGIL is an academic and hackathon prototype evaluated against synthetic AICTE complaint test sets. All listed metrics represent project target thresholds. No live government databases or private institutional records are accessed.
-            </p>
-          </div>
-          <div class="callout-action">
-            <button class="btn btn-secondary btn-sm" id="callout-card-btn">Download Evaluation Plan</button>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- Architecture & Processing Layers (Section 13) -->
+    <!-- Architecture & Processing Layers (Section 12) -->
     <section class="section-container" id="architecture">
       <div class="container">
 
         <div class="section-header">
           <span class="section-tag">SYSTEM ARCHITECTURE</span>
-          <h2 class="section-title">Three coordinated processing layers</h2>
+          <h2 class="section-title">Three Coordinated Processing Layers</h2>
           <p class="section-desc">
             VIGIL structures its intelligence into three decoupled processing layers, coordinated via LangGraph and Postgres pgvector with strict role-based access control.
           </p>
@@ -539,12 +712,12 @@
 
           <!-- Layer 1: VIGIL DNA Core -->
           <div class="model-tier-card featured">
-            <div class="tier-badge">CORE ENGINE</div>
+            <div class="tier-badge">LAYER 1 &bull; IDENTITY RESOLUTION</div>
             <h3 class="tier-name">VIGIL DNA Core</h3>
             <p class="tier-tagline">Institution identity canonicalization through a 4-stage hybrid matching pipeline.</p>
-            <div class="tier-pricing">
-              <span class="price-val">4-Stage</span>
-              <span class="price-unit">Exact → Fuzzy → Vector → LLM Judge</span>
+            <div class="layer-spec-pill">
+              <span class="layer-spec-label">COGNITIVE RESOLUTION PIPELINE</span>
+              <span class="layer-spec-val">Exact &rarr; Fuzzy &rarr; Vector &rarr; LLM Judge</span>
             </div>
             <ul class="tier-features">
               <li>AICTE Permanent ID exact index lookup</li>
@@ -553,101 +726,56 @@
               <li>Groq Llama LLM Judge for ambiguous candidate arbitration</li>
               <li>Mandatory human-review routing for confidence &lt; 0.85</li>
             </ul>
-            <a href="#agentic-sandbox" class="btn btn-primary btn-block">Explore DNA Engine</a>
           </div>
 
           <!-- Layer 2: VIGIL Coordinate -->
           <div class="model-tier-card">
-            <div class="tier-badge sol">COORDINATION</div>
+            <div class="tier-badge sol">LAYER 2 &bull; MULTI-BUREAU COORDINATION</div>
             <h3 class="tier-name">VIGIL Coordinate</h3>
             <p class="tier-tagline">Cross-bureau overlap intelligence, temporal complaint graph, and War Rooms.</p>
-            <div class="tier-pricing">
-              <span class="price-val">Graph</span>
-              <span class="price-unit">Multi-Bureau Temporal Traversal</span>
+            <div class="layer-spec-pill">
+              <span class="layer-spec-label">GRAPH REASONING ENGINE</span>
+              <span class="layer-spec-val">Multi-Bureau Temporal Traversal</span>
             </div>
             <ul class="tier-features">
               <li>Temporal property graph linking institutions, complaints & bureau actions</li>
-              <li>30-day temporal overlap detection heuristics (RB ↔ PGRC)</li>
+              <li>30-day temporal overlap detection heuristics (RB &harr; PGRC)</li>
               <li>Automated War Room workspace recommendations</li>
               <li>Multi-bureau SLA monitoring and deadline escalation alerts</li>
               <li>Systemic root-cause clustering and repeated grievance detection</li>
             </ul>
-            <a href="#agentic-sandbox" class="btn btn-secondary btn-block">Explore Overlap Logic</a>
           </div>
 
           <!-- Layer 3: VIGIL Intelligence -->
           <div class="model-tier-card">
-            <div class="tier-badge luna">INTELLIGENCE</div>
+            <div class="tier-badge luna">LAYER 3 &bull; PREDICTIVE ANALYTICS</div>
             <h3 class="tier-name">VIGIL Intelligence</h3>
             <p class="tier-tagline">Institutional Risk DNA, predictive analytics, and AI Complaint Co-Pilot.</p>
-            <div class="tier-pricing">
-              <span class="price-val">0–100</span>
-              <span class="price-unit">Configurable Risk DNA Scoring</span>
+            <div class="layer-spec-pill">
+              <span class="layer-spec-label">PREDICTIVE RISK SCORING</span>
+              <span class="layer-spec-val">0&ndash;100 Scoring & Time-Series Forecast</span>
             </div>
             <ul class="tier-features">
               <li>Multi-signal institutional Risk DNA scoring (GREEN / YELLOW / RED)</li>
-              <li>Prophet 30-day time-series complaint inflow trend forecasting</li>
+              <li>Time-series trend projection with 95% CI bands (Prophet-compatible interface)</li>
               <li>Natural-language query interface for AICTE nodal officers</li>
               <li>Generative draft coordination memos & executive briefings</li>
               <li>Immutable SHA-256 hash-chained event provenance</li>
             </ul>
-            <a href="#agentic-sandbox" class="btn btn-secondary btn-block">Explore Co-Pilot</a>
           </div>
 
-        </div>
-
-        <!-- Operational Workload Estimator (Section 14) -->
-        <div class="calculator-card" id="calculator">
-          <div class="calc-header">
-            <h4>Operational Workload & Verification Estimator</h4>
-            <span class="calc-sub">Estimate institutional matching verification workload and LLM arbitration requirements based on complaint volume</span>
-          </div>
-          <div class="calc-grid">
-            <div class="calc-inputs">
-              <div class="calc-field">
-                <label for="token-slider">Monthly Incoming Complaints: <span id="token-display">500 Cases</span></label>
-                <input type="range" id="token-slider" min="50" max="5000" value="500" step="50">
-              </div>
-              <div class="calc-field">
-                <label for="output-slider">Ambiguous Institution References (%): <span id="output-display">25%</span></label>
-                <input type="range" id="output-slider" min="5" max="75" value="25" step="1">
-              </div>
-              <div class="calc-field">
-                <label for="model-select">Selected Processing Workflow:</label>
-                <select id="model-select" class="calc-select">
-                  <option value="full" selected>Full Hybrid Pipeline (Exact + Fuzzy + Vector + LLM Judge)</option>
-                  <option value="vector">Vector Augmented (Exact + Fuzzy + Vector)</option>
-                  <option value="heuristic">Heuristic Only (Exact + Fuzzy + Phonetic)</option>
-                </select>
-              </div>
-            </div>
-            <div class="calc-results">
-              <div class="calc-stat">
-                <span class="stat-name">CASES REQUIRING MATCHING VERIFICATION</span>
-                <span class="stat-big" id="calc-cost-result">~125 cases</span>
-              </div>
-              <div class="calc-stat">
-                <span class="stat-name">ACTIVE WORKFLOW STAGES</span>
-                <span class="stat-medium" id="calc-throughput-result">4 Stages (Full)</span>
-              </div>
-              <div class="calc-stat">
-                <span class="stat-name">ESTIMATED LLM ARBITRATION REQUESTS</span>
-                <span class="stat-medium" id="calc-latency-result">~31 requests</span>
-              </div>
-            </div>
-          </div>
         </div>
 
       </div>
     </section>
 
-    <!-- Developer API Playground (Section 15) -->
+    <!-- Developer API Playground (Section 13) -->
     <section class="section-container bg-surface" id="api">
       <div class="container">
 
         <div class="section-header">
-          <span class="section-tag">PROPOSED API CONTRACT</span>
-          <h2 class="section-title">Developer quickstart: Institution resolution API</h2>
+          <span class="section-tag">API CONTRACT</span>
+          <h2 class="section-title">Developer Quickstart: Institution Resolution API</h2>
           <p class="section-desc">
             VIGIL exposes a FastAPI decision-support endpoint for institution identity resolution, cross-bureau overlap detection, and risk scoring.
           </p>
@@ -683,12 +811,26 @@
               </div>
             </div>
             <div class="param-item">
-              <span class="param-title">llm_judge</span>
-              <div class="pill-options" id="computer-options">
-                <button class="param-pill active" data-computer="enabled">enabled</button>
-                <button class="param-pill" data-computer="disabled">disabled</button>
+              <span class="param-title">llm_judge_arbitration</span>
+              <div class="pill-options" id="judge-options">
+                <button class="param-pill active" data-judge="enabled">enabled</button>
+                <button class="param-pill" data-judge="disabled">disabled</button>
               </div>
             </div>
+          </div>
+
+          <!-- Live API Executor Box -->
+          <div style="margin-top: 18px; padding: 14px 18px; background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 12px; display: flex; flex-direction: column; gap: 10px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span class="status-dot-pulse"></span>
+                <span style="font-size: 12px; font-weight: 600; color: #38bdf8; font-family: monospace;">LIVE FASTAPI ENDPOINT: http://localhost:8000/api/v1/institutions/resolve</span>
+              </div>
+              <button id="btn-run-live-api" class="btn btn-primary btn-sm" style="font-size: 11px; padding: 4px 12px;">
+                <span>⚡ Send Live Request to :8000</span>
+              </button>
+            </div>
+            <div id="live-api-result-box" style="display: none; background: #020617; border: 1px solid #1e293b; border-radius: 8px; padding: 10px; font-family: monospace; font-size: 11px; max-height: 180px; overflow-y: auto; color: #a5f3fc; white-space: pre-wrap;"></div>
           </div>
 
         </div>
@@ -696,13 +838,13 @@
       </div>
     </section>
 
-    <!-- Governance, Safety & Safeguards (Section 16) -->
+    <!-- Governance, Safety & Safeguards (Section 14) -->
     <section class="section-container" id="safety">
       <div class="container">
 
         <div class="section-header">
           <span class="section-tag">GOVERNANCE & SAFEGUARDS</span>
-          <h2 class="section-title">Built with human-in-the-loop governance</h2>
+          <h2 class="section-title">Built with Human-in-the-Loop Governance</h2>
           <p class="section-desc">
             VIGIL is an advisory decision-support platform. All final regulatory decisions, case disposals, and formal inter-bureau escalations remain solely with authorized AICTE officials.
           </p>
@@ -744,27 +886,52 @@
 
         </div>
 
-        <!-- Download Documentation Banner -->
-        <div class="system-card-banner">
-          <div class="banner-content">
-            <h3>VIGIL Governance & System Architecture Card</h3>
-            <p>Read our comprehensive technical documentation detailing the Institution DNA Engine, multi-agent LangGraph orchestration, evaluation targets, and privacy-by-design safeguards.</p>
-          </div>
-          <div class="banner-btn-group">
-            <button class="btn btn-primary" id="btn-view-system-card">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-icon"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              <span>Download System Card (PDF)</span>
-            </button>
-            <button class="btn btn-secondary" id="btn-view-eval-ledger">View Evaluation Plan</button>
-          </div>
-        </div>
-
       </div>
     </section>
 
   </main>
 
-  <!-- VIGIL Minimalist Footer (Section 17) -->
+  <!-- AICTE Multi-Bureau Portals Quick Launch Bar (Shifted to End of Page) -->
+  <div class="system-bottom-status-bar" id="bottom-portal-bar">
+    <div class="container system-bottom-status-inner">
+      <div class="system-status-items">
+        <div class="system-status-item">
+          <span class="status-dot-pulse"></span>
+          <span style="font-weight: 600; color: #f1f5f9; letter-spacing: 0.02em;">AICTE Portals:</span>
+        </div>
+        <div class="portal-quick-chips">
+          <a href="http://localhost:3001" target="_blank" class="status-quick-link primary-chip" title="Launch Central Multi-Bureau Officer Command Center">
+            🏛️ Officer Command Center (:3001) ↗
+          </a>
+          <a href="http://localhost:3001/?bureau=RB" target="_blank" class="status-quick-link" title="Launch Regulation Bureau Portal">
+            📋 Regulation Bureau (RB) ↗
+          </a>
+          <a href="http://localhost:3001/?bureau=PGRC" target="_blank" class="status-quick-link" title="Launch Public Grievance Redressal Portal">
+            👥 Grievance Cell (PGRC) ↗
+          </a>
+          <a href="http://localhost:3001/?bureau=Approvals" target="_blank" class="status-quick-link" title="Launch Approval Bureau Portal">
+            📜 Approval Bureau ↗
+          </a>
+          <a href="http://localhost:3001/?section=overlap" target="_blank" class="status-quick-link" title="Launch Bilateral War Room">
+            ⚔️ Bilateral War Room ↗
+          </a>
+          <a href="http://localhost:3001/?section=copilot" target="_blank" class="status-quick-link" title="Launch AI Complaint Co-Pilot">
+            🤖 AI Co-Pilot ↗
+          </a>
+        </div>
+      </div>
+      <div class="system-status-actions">
+        <a href="#command-center" class="status-quick-link highlight-chip">
+          <span>⚡ Embedded View</span>
+        </a>
+        <a href="http://localhost:8000/docs" target="_blank" class="status-quick-link api-chip" title="Interactive FastAPI Swagger Documentation">
+          <span>📑 API Gateway (:8000) ↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- VIGIL Institutional Platform Footer -->
   <footer class="site-footer">
     <div class="container footer-container">
 
@@ -780,63 +947,59 @@
           </div>
           <p class="footer-motto">
             "One Institution. One Intelligence Layer. Coordinated Action."<br>
-            Smart India Hackathon 2026 prototype by Team Clutch Crew for the All India Council for Technical Education (AICTE — Regulation Bureau).
+            Autonomous institution intelligence and multi-bureau decision-support system for the All India Council for Technical Education (AICTE).
           </p>
           <div class="system-status-indicator">
             <span class="status-dot-active"></span>
-            <span>Prototype Demonstration — Illustrative Data Mode</span>
+            <span>AICTE Enterprise Decision-Support System Operational</span>
           </div>
         </div>
 
         <div class="footer-columns">
           <div class="footer-col">
-            <span class="col-title">PROJECT</span>
+            <span class="col-title">CORE PLATFORM</span>
+            <a href="#command-center">Officer Command Center</a>
             <a href="#overview">Overview</a>
-            <a href="#dna-engine">DNA Engine</a>
-            <a href="#agentic-sandbox">Agentic Demo</a>
-            <a href="#benchmarks">Evaluation Targets</a>
-            <a href="#architecture">Architecture</a>
-            <a href="#safety">Governance</a>
+            <a href="#dna-engine">Institution DNA Engine</a>
+            <a href="#agentic-sandbox">Multi-Agent Pipeline</a>
+            <a href="#reasoning">Explainable Trace</a>
           </div>
 
           <div class="footer-col">
-            <span class="col-title">RESOURCES</span>
-            <a href="#api">API Contract</a>
-            <a href="#safety" id="footer-doc-link">System Card (PDF)</a>
-            <a href="#agentic-sandbox">Live Sandbox</a>
-            <a href="https://github.com/your-org/vigil-sih-26264" target="_blank" rel="noopener">GitHub Repository</a>
+            <span class="col-title">ARCHITECTURE</span>
+            <a href="#architecture">DNA Canonicalization Layer</a>
+            <a href="#architecture">Temporal Complaint Graph</a>
+            <a href="#architecture">Predictive Risk DNA Engine</a>
+            <a href="#api">FastAPI Developer Gateway</a>
           </div>
 
           <div class="footer-col">
-            <span class="col-title">PROBLEM STATEMENT</span>
-            <a href="https://www.sih.gov.in" target="_blank" rel="noopener">PS ID: 26264</a>
-            <a href="#overview">Organization: AICTE</a>
-            <a href="#overview">Dept: Regulation Bureau</a>
-            <a href="#overview">Theme: Smart Automation</a>
-            <a href="#overview">Category: Software</a>
+            <span class="col-title">GOVERNANCE</span>
+            <a href="#safety">Human-in-the-Loop Authority</a>
+            <a href="#safety">Role-Based Access Control</a>
+            <a href="#safety">SHA-256 Event Provenance</a>
+            <a href="#safety">Explainable Decision Gates</a>
           </div>
 
           <div class="footer-col">
-            <span class="col-title">TEAM CLUTCH CREW</span>
-            <a href="#overview">Team ID: 197488</a>
-            <a href="#overview">Smart India Hackathon 2026</a>
-            <a href="mailto:contact@vigil-aicte.org">Contact Team</a>
+            <span class="col-title">OFFICER &amp; BUREAU PORTALS</span>
+            <a href="http://localhost:3001" target="_blank">Officer Command Center (:3001) ↗</a>
+            <a href="http://localhost:3001/?bureau=RB" target="_blank">Regulation Bureau (RB) ↗</a>
+            <a href="http://localhost:3001/?bureau=PGRC" target="_blank">Grievance Cell (PGRC) ↗</a>
+            <a href="http://localhost:3001/?bureau=Approvals" target="_blank">Approval Bureau ↗</a>
+            <a href="http://localhost:3001/?section=overlap" target="_blank">Bilateral War Room ↗</a>
+            <a href="http://localhost:8000/docs" target="_blank">FastAPI Gateway (:8000) ↗</a>
           </div>
         </div>
       </div>
 
       <div class="footer-bottom">
         <div class="footer-legal">
-          <span>Team Clutch Crew &copy; 2026</span>
-          <span class="legal-sep">•</span>
-          <span>Built for Smart India Hackathon 2026</span>
-          <span class="legal-sep">•</span>
-          <span>Decision-Support System Prototype — Not for Official Production Use</span>
-        </div>
-        <div class="footer-socials">
-          <a href="https://github.com/your-org/vigil-sih-26264" aria-label="GitHub" class="social-link" target="_blank" rel="noopener">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-          </a>
+          <span>&copy; 2026 All India Council for Technical Education (AICTE)</span>
+          <span class="legal-sep">&bull;</span>
+          <span>VIGIL Institutional Intelligence &amp; Multi-Bureau Coordination Platform</span>
+          <span class="legal-sep">&bull;</span>
+          <span>Official Regulation &amp; Grievance Decision-Support Infrastructure</span>
         </div>
       </div>
 
@@ -845,44 +1008,6 @@
 
   <!-- Toast Notification Container -->
   <div id="toast-container" class="toast-container" aria-live="polite"></div>
-
-  <!-- Modal for Documentation / System Card Preview -->
-  <div id="system-card-modal" class="modal-backdrop" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-header">
-        <h3>VIGIL Governance & System Architecture Card</h3>
-        <button class="modal-close-btn" id="modal-close">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="modal-badge-row">
-          <span class="badge">SIH 2026</span>
-          <span class="badge">PS ID: 26264</span>
-          <span class="badge">STATUS: TARGET SPECIFICATION</span>
-        </div>
-        <h4>Evaluation Targets & Confidence Safeguards</h4>
-        <p>VIGIL is evaluated against synthetic AICTE complaint benchmarks with the following project target criteria:</p>
-        <div class="modal-table-wrap">
-          <table class="modal-table">
-            <thead>
-              <tr><th>Evaluation Metric</th><th>Target Threshold</th><th>Validation Method</th><th>Status</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Institution Matching Accuracy</td><td>&ge; 92%</td><td>4-Stage Hybrid DNA Engine</td><td>TARGET SPECIFICATION</td></tr>
-              <tr><td>Overlap Detection Precision</td><td>&ge; 88%</td><td>Temporal Graph Traversal</td><td>TARGET SPECIFICATION</td></tr>
-              <tr><td>False Positive Rate</td><td>&lt; 10%</td><td>Multi-stage Validation Filter</td><td>TARGET SPECIFICATION</td></tr>
-              <tr><td>Manual Review Reduction</td><td>&ge; 60%</td><td>Automated Canonical Resolution</td><td>TARGET SPECIFICATION</td></tr>
-              <tr><td>SLA Alert Timeliness</td><td>&lt; 30 sec</td><td>Redis Pub/Sub Event Queue</td><td>TARGET SPECIFICATION</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <p class="modal-footer-note">This prototype uses synthetic AICTE registry data for demonstration purposes. No live government APIs are connected.</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" id="modal-cancel-btn">Close</button>
-        <button class="btn btn-primary" id="modal-dl-btn">Download Full Specification (PDF)</button>
-      </div>
-    </div>
-  </div>
 
   <script src="app.js"></script>
 </body>

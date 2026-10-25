@@ -1,7 +1,21 @@
 from fastapi import APIRouter
 from core.database import supabase
 
+from services.audit_service import verify_chain_integrity, get_in_memory_logs
+
 router = APIRouter(prefix="/api/v1/audit", tags=["audit"])
+
+@router.get("/verify-integrity")
+def verify_integrity():
+    if supabase is not None:
+        try:
+            res = supabase.table("audit_logs").select("*").order("created_at").execute()
+            if res.data:
+                return verify_chain_integrity(res.data)
+        except Exception as e:
+            pass
+    entries = get_in_memory_logs()
+    return verify_chain_integrity(entries)
 
 @router.get("/recent")
 def recent_logs(limit: int = 20):

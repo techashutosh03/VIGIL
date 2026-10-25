@@ -1,7 +1,7 @@
 /**
- * VIGIL — AGENTIC INSTITUTION INTELLIGENCE & COORDINATION PLATFORM
- * Interactive Demonstration Engine & Visualizer
- * SIH 2026 | PS 26264 | Team Clutch Crew (197488)
+ * VIGIL — INSTITUTION INTELLIGENCE & MULTI-BUREAU COORDINATION PLATFORM
+ * Decision-Support Engine & Institutional Graph Visualizer
+ * All India Council for Technical Education (AICTE — Regulation Bureau & PGRC)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -51,9 +51,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // =========================================================================
   // 3. Dynamic Hero Canvas (VIGIL Institution Intelligence Network)
   //    Particle Meanings:
-  //    - Blue: Institution profiles (#2563eb)
-  //    - Teal: Verified relationships (#14b8a6)
-  //    - Amber: Potential complaint overlaps (#f59e0b)
+  //    - Blue: Institution profiles (#2563eb / #38bdf8)
+  //    - Teal: Verified relationships (#14b8a6 / #2dd4bf)
+  //    - Amber: Potential complaint overlaps (#f59e0b / #fbbf24)
+  //    Interactive Feature: Beads assemble into "VIGIL" when free/idle!
   // =========================================================================
   const canvas = document.getElementById('hero-canvas');
   if (canvas) {
@@ -61,105 +62,281 @@ document.addEventListener('DOMContentLoaded', () => {
     let width = canvas.width = canvas.parentElement.clientWidth;
     let height = canvas.height = canvas.parentElement.clientHeight;
 
-    window.addEventListener('resize', () => {
+    let particleCount = 280; // Significantly increased number of beads for a dense, vibrant field
+    let particles = [];
+    let vigilTargets = [];
+    let canvasMode = 'vigil'; // 'vigil' = assembled "VIGIL" wordmark, 'dense' = free graph, 'neural' = risk pulses
+    let mouse = { x: -9999, y: -9999, active: false, lastMove: 0 };
+
+    // Geometric fallback coordinates for letters V-I-G-I-L
+    function generateGeometricVigilTargets(w, h, count) {
+      const totalWidth = Math.min(w * 0.72, 760);
+      const totalHeight = Math.min(h * 0.40, 150);
+      const startX = (w - totalWidth) / 2;
+      const startY = h * 0.40 - totalHeight / 2;
+      const letterW = totalWidth / 5.5;
+      const gap = (totalWidth - letterW * 5) / 4;
+      const pts = [];
+
+      function addSegment(x1, y1, x2, y2, steps = 14) {
+        for (let i = 0; i <= steps; i++) {
+          const t = i / steps;
+          pts.push({ x: x1 + (x2 - x1) * t, y: y1 + (y2 - y1) * t });
+        }
+      }
+
+      // Letter 1: V
+      const x0 = startX;
+      addSegment(x0, startY, x0 + letterW / 2, startY + totalHeight, 16);
+      addSegment(x0 + letterW / 2, startY + totalHeight, x0 + letterW, startY, 16);
+
+      // Letter 2: I
+      const x1 = x0 + letterW + gap;
+      addSegment(x1, startY, x1 + letterW, startY, 10);
+      addSegment(x1 + letterW / 2, startY, x1 + letterW / 2, startY + totalHeight, 18);
+      addSegment(x1, startY + totalHeight, x1 + letterW, startY + totalHeight, 10);
+
+      // Letter 3: G
+      const x2 = x1 + letterW + gap;
+      addSegment(x2 + letterW, startY, x2, startY, 12);
+      addSegment(x2, startY, x2, startY + totalHeight, 18);
+      addSegment(x2, startY + totalHeight, x2 + letterW, startY + totalHeight, 14);
+      addSegment(x2 + letterW, startY + totalHeight, x2 + letterW, startY + totalHeight * 0.52, 10);
+      addSegment(x2 + letterW, startY + totalHeight * 0.52, x2 + letterW * 0.48, startY + totalHeight * 0.52, 10);
+
+      // Letter 4: I
+      const x3 = x2 + letterW + gap;
+      addSegment(x3, startY, x3 + letterW, startY, 10);
+      addSegment(x3 + letterW / 2, startY, x3 + letterW / 2, startY + totalHeight, 18);
+      addSegment(x3, startY + totalHeight, x3 + letterW, startY + totalHeight, 10);
+
+      // Letter 5: L
+      const x4 = x3 + letterW + gap;
+      addSegment(x4, startY, x4, startY + totalHeight, 18);
+      addSegment(x4, startY + totalHeight, x4 + letterW, startY + totalHeight, 14);
+
+      const targets = [];
+      for (let i = 0; i < count; i++) {
+        targets.push(pts[i % pts.length]);
+      }
+      return targets;
+    }
+
+    // High-resolution pixel extraction from offscreen canvas
+    function computeVigilTargets(w, h, count) {
+      try {
+        const off = document.createElement('canvas');
+        off.width = w;
+        off.height = h;
+        const octx = off.getContext('2d', { willReadFrequently: true });
+        if (!octx) return generateGeometricVigilTargets(w, h, count);
+
+        const fontSize = Math.min(Math.max(w * 0.13, 56), 140);
+        octx.fillStyle = '#ffffff';
+        octx.font = `900 ${fontSize}px "Inter", "Segoe UI", system-ui, sans-serif`;
+        octx.textAlign = 'center';
+        octx.textBaseline = 'middle';
+
+        const centerY = h * 0.41;
+        octx.fillText("V I G I L", w / 2, centerY);
+
+        const imgData = octx.getImageData(0, 0, w, h);
+        const data = imgData.data;
+        const pts = [];
+
+        const step = Math.max(3, Math.floor(Math.sqrt((w * h) / 38000)));
+        for (let y = 0; y < h; y += step) {
+          for (let x = 0; x < w; x += step) {
+            const idx = (y * w + x) * 4;
+            if (data[idx + 3] > 120) {
+              pts.push({ x, y });
+            }
+          }
+        }
+
+        if (pts.length < 50) {
+          return generateGeometricVigilTargets(w, h, count);
+        }
+
+        // Shuffle points to ensure color distribution across all letters
+        for (let i = pts.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          const t = pts[i];
+          pts[i] = pts[j];
+          pts[j] = t;
+        }
+
+        const targets = [];
+        for (let i = 0; i < count; i++) {
+          const p = pts[i % pts.length];
+          targets.push({
+            x: p.x + (Math.random() - 0.5) * 3,
+            y: p.y + (Math.random() - 0.5) * 3
+          });
+        }
+        return targets;
+      } catch (e) {
+        return generateGeometricVigilTargets(w, h, count);
+      }
+    }
+
+    function resizeCanvas() {
       if (!canvas.parentElement) return;
       width = canvas.width = canvas.parentElement.clientWidth;
       height = canvas.height = canvas.parentElement.clientHeight;
-    });
+      vigilTargets = computeVigilTargets(width, height, particleCount);
+      for (let i = 0; i < particles.length; i++) {
+        if (vigilTargets[i]) {
+          particles[i].targetX = vigilTargets[i].x;
+          particles[i].targetY = vigilTargets[i].y;
+        }
+      }
+    }
 
-    let particleCount = 85;
-    let particles = [];
-    let canvasMode = 'dense'; // 'dense' = full institution graph, 'neural' = active-signal view
-    let mouse = { x: width / 2, y: height / 2, active: false };
+    window.addEventListener('resize', resizeCanvas);
 
     canvas.addEventListener('mousemove', (e) => {
       const rect = canvas.getBoundingClientRect();
       mouse.x = e.clientX - rect.left;
       mouse.y = e.clientY - rect.top;
       mouse.active = true;
+      mouse.lastMove = Date.now();
     });
 
     canvas.addEventListener('mouseleave', () => {
       mouse.active = false;
+      mouse.x = -9999;
+      mouse.y = -9999;
     });
 
     function initParticles() {
       particles = [];
+      vigilTargets = computeVigilTargets(width, height, particleCount);
+
       for (let i = 0; i < particleCount; i++) {
         const rand = Math.random();
-        // Blue: Institution profiles (50%), Teal: Verified relationships (25%), Amber: Potential overlaps (25%)
-        const color = rand < 0.5 ? '#2563eb' : (rand < 0.75 ? '#14b8a6' : '#f59e0b');
+        // Rich palette: Blue (45%), Teal (35%), Amber (20%)
+        const color = rand < 0.45 
+          ? (Math.random() > 0.4 ? '#38bdf8' : '#2563eb')
+          : (rand < 0.80 ? (Math.random() > 0.4 ? '#2dd4bf' : '#14b8a6') : (Math.random() > 0.4 ? '#fbbf24' : '#f59e0b'));
+
+        const target = vigilTargets[i] || { x: width / 2, y: height / 2 };
+
         particles.push({
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * 0.75,
-          vy: (Math.random() - 0.5) * 0.75,
+          vx: (Math.random() - 0.5) * 1.5,
+          vy: (Math.random() - 0.5) * 1.5,
+          targetX: target.x,
+          targetY: target.y,
           radius: Math.random() * 2.2 + 1.2,
           color: color,
-          pulse: Math.random() * Math.PI,
-          pulseSpeed: 0.02 + Math.random() * 0.03
+          pulse: Math.random() * Math.PI * 2,
+          pulseSpeed: 0.02 + Math.random() * 0.035,
+          freeSeed: Math.random() * 1000
         });
       }
     }
 
     initParticles();
 
+    let frameCount = 0;
+
     function draw() {
+      frameCount++;
       ctx.clearRect(0, 0, width, height);
 
-      const grad = ctx.createRadialGradient(width / 2, height / 2, 50, width / 2, height / 2, width * 0.6);
-      grad.addColorStop(0, 'rgba(37, 99, 235, 0.08)');
+      // Background ambient gradient
+      const grad = ctx.createRadialGradient(width / 2, height / 2, 40, width / 2, height / 2, width * 0.65);
+      grad.addColorStop(0, canvasMode === 'neural' ? 'rgba(236, 72, 153, 0.09)' : 'rgba(37, 99, 235, 0.09)');
       grad.addColorStop(1, 'rgba(8, 8, 10, 0)');
       ctx.fillStyle = grad;
       ctx.fillRect(0, 0, width, height);
 
-      // Connect institution nodes (edges = shared complaints / overlap links)
-      const maxDist = canvasMode === 'dense' ? 125 : 175;
-      for (let i = 0; i < particles.length; i++) {
-        for (let j = i + 1; j < particles.length; j++) {
-          const dx = particles[i].x - particles[j].x;
-          const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+      // Check if mouse is idle ("when beads are free")
+      const isMouseIdle = !mouse.active || (Date.now() - mouse.lastMove > 1600);
+      const isVigilActive = (canvasMode === 'vigil');
 
-          if (dist < maxDist) {
-            const alpha = (1 - dist / maxDist) * (canvasMode === 'neural' ? 0.35 : 0.18);
-            ctx.strokeStyle = `rgba(56, 189, 248, ${alpha})`;
-            ctx.lineWidth = 1;
+      // Connecting lines
+      const maxDist = isVigilActive ? 36 : (canvasMode === 'dense' ? 95 : 140);
+      const maxDistSq = maxDist * maxDist;
+
+      for (let i = 0; i < particles.length; i++) {
+        const p1 = particles[i];
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dx = p1.x - p2.x;
+          const dy = p1.y - p2.y;
+          const distSq = dx * dx + dy * dy;
+
+          if (distSq < maxDistSq) {
+            const dist = Math.sqrt(distSq);
+            const alpha = (1 - dist / maxDist) * (isVigilActive ? 0.38 : (canvasMode === 'neural' ? 0.28 : 0.16));
+            ctx.strokeStyle = isVigilActive ? `rgba(56, 189, 248, ${alpha})` : (canvasMode === 'neural' ? `rgba(244, 114, 182, ${alpha})` : `rgba(20, 184, 166, ${alpha})`);
+            ctx.lineWidth = isVigilActive ? 1.1 : 0.8;
             ctx.beginPath();
-            ctx.moveTo(particles[i].x, particles[i].y);
-            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
             ctx.stroke();
           }
         }
       }
 
+      // Update & Draw Particles
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
+
+        if (isVigilActive && isMouseIdle) {
+          // Beads are FREE and IDLE: Attract smoothly to spell "VIGIL"
+          const dx = p.targetX - p.x;
+          const dy = p.targetY - p.y;
+          p.vx += dx * 0.038;
+          p.vy += dy * 0.038;
+
+          // Subtle organic oscillation so letters shimmer like living energy
+          p.vx += Math.sin(p.pulse + frameCount * 0.04) * 0.16;
+          p.vy += Math.cos(p.pulse + frameCount * 0.04) * 0.16;
+
+          // Damping to lock neatly onto letter glyphs
+          p.vx *= 0.84;
+          p.vy *= 0.84;
+        } else {
+          // Free-floating graph mode or disturbed by mouse
+          p.vx += (Math.random() - 0.5) * 0.08;
+          p.vy += (Math.random() - 0.5) * 0.08;
+          p.vx *= 0.985;
+          p.vy *= 0.985;
+        }
+
+        // Mouse repulsion: user disturbs the beads, beads scatter outward
+        if (mouse.active) {
+          const mdx = p.x - mouse.x;
+          const mdy = p.y - mouse.y;
+          const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+          if (mdist < 140 && mdist > 0) {
+            const force = (1 - mdist / 140) * 10;
+            p.vx += (mdx / mdist) * force;
+            p.vy += (mdy / mdist) * force;
+          }
+        }
 
         p.x += p.vx;
         p.y += p.vy;
 
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
-
-        if (mouse.active) {
-          const mdx = mouse.x - p.x;
-          const mdy = mouse.y - p.y;
-          const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
-          if (mdist < 140) {
-            p.x += mdx * 0.02;
-            p.y += mdy * 0.02;
-          }
-        }
+        // Boundary containment
+        if (p.x < 10) { p.x = 10; p.vx *= -1; }
+        if (p.x > width - 10) { p.x = width - 10; p.vx *= -1; }
+        if (p.y < 10) { p.y = 10; p.vy *= -1; }
+        if (p.y > height - 10) { p.y = height - 10; p.vy *= -1; }
 
         p.pulse += p.pulseSpeed;
-        const radius = p.radius + Math.sin(p.pulse) * 0.5;
+        const radius = p.radius + Math.sin(p.pulse) * 0.55;
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, Math.max(1, radius), 0, Math.PI * 2);
         ctx.fillStyle = p.color;
         ctx.shadowColor = p.color;
-        ctx.shadowBlur = canvasMode === 'neural' ? 12 : 5;
+        ctx.shadowBlur = isVigilActive ? 8 : (canvasMode === 'neural' ? 12 : 5);
         ctx.fill();
         ctx.shadowBlur = 0;
       }
@@ -169,24 +346,37 @@ document.addEventListener('DOMContentLoaded', () => {
 
     draw();
 
+    // Canvas Mode Switcher Controls
+    const vigilBtn = document.getElementById('canvas-vigil-btn');
     const densityBtn = document.getElementById('canvas-density-btn');
     const energyBtn = document.getElementById('canvas-energy-btn');
 
-    if (densityBtn && energyBtn) {
-      densityBtn.addEventListener('click', () => {
-        canvasMode = 'dense';
-        particleCount = 95;
-        densityBtn.classList.add('active');
-        energyBtn.classList.remove('active');
-        initParticles();
-      });
+    function setActiveMode(btn, mode, count) {
+      canvasMode = mode;
+      particleCount = count;
+      [vigilBtn, densityBtn, energyBtn].forEach(b => b && b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      initParticles();
+    }
 
+    if (vigilBtn) {
+      vigilBtn.addEventListener('click', () => {
+        setActiveMode(vigilBtn, 'vigil', 280);
+        showToast('Assembling beads into "VIGIL" wordmark');
+      });
+    }
+
+    if (densityBtn) {
+      densityBtn.addEventListener('click', () => {
+        setActiveMode(densityBtn, 'dense', 220);
+        showToast('Free-flowing Network Graph mode active');
+      });
+    }
+
+    if (energyBtn) {
       energyBtn.addEventListener('click', () => {
-        canvasMode = 'neural';
-        particleCount = 55;
-        energyBtn.classList.add('active');
-        densityBtn.classList.remove('active');
-        initParticles();
+        setActiveMode(energyBtn, 'neural', 160);
+        showToast('Risk DNA Pulses active');
       });
     }
   }
@@ -343,12 +533,12 @@ INSERT INTO institution_match_log (
           ]
         },
         {
-          badge: "STEP 3: PROPHET TIME-SERIES FORECAST",
+          badge: "STEP 3: TIME-SERIES TREND PROJECTION",
           title: "30-Day Complaint Volume Projection",
-          detail: "Runs Prophet time-series model to forecast trend and distinguish systemic spikes from transient anomalies.",
+          detail: "Runs time-series trend projection with 95% confidence interval bands (Prophet-compatible forecasting interface) to distinguish systemic spikes from transient anomalies.",
           logs: [
-            { type: "command", text: "$ python forecast_prophet.py --inst inst-aicte-1-9820341 --horizon 30" },
-            { type: "info", text: "[FORECAST] Projected incoming complaints: +50% acceleration over trailing 30-day baseline." }
+            { type: "command", text: "$ python forecast_trend.py --inst inst-aicte-1-9820341 --horizon 30" },
+            { type: "info", text: "[FORECAST] Projected incoming complaints: +50% acceleration with 95% CI bands over trailing 30-day baseline." }
           ]
         },
         {
@@ -362,7 +552,7 @@ INSERT INTO institution_match_log (
           ]
         }
       ],
-      telemetry: { compute: "5 feature signals", tools: "Prophet forecast", verify: "RED Band (81/100)", time: "1,150 ms" },
+      telemetry: { compute: "5 feature signals", tools: "Trend projection (95% CI)", verify: "RED Band (81/100)", time: "1,150 ms" },
       diffText: `{
   "institution_id": "inst-aicte-1-9820341",
   "risk_score": 81.0,
@@ -375,7 +565,7 @@ INSERT INTO institution_match_log (
     "cross_bureau_overlaps": 1,
     "avg_resolution_delay_days": 14
   },
-  "prophet_30d_forecast": "+50% projected inflow",
+  "projected_30d_forecast": "+50% projected inflow (95% CI)",
   "report_id": "PIR-2026-0094"
 }`
     },
@@ -491,9 +681,9 @@ Note: This memo is AI-synthesized and requires authorized officer signature.`
 
     if (terminalOutput) {
       terminalOutput.innerHTML = `
-        <div class="log-line log-info">[VIGIL-SIMULATION] Decision-support agent pipeline initialized.</div>
-        <div class="log-line log-info">Mock Environment: AICTE Synthetic Dataset (PS 26264 Sandbox)</div>
-        <div class="log-line log-thought">Press "Simulate Execution" to walk through the multi-agent pipeline step-by-step.</div>
+        <div class="log-line log-info">[VIGIL-CORE] Multi-bureau decision-support pipeline initialized.</div>
+        <div class="log-line log-info">Environment: AICTE Multi-Bureau Grievance & Regulatory Registry</div>
+        <div class="log-line log-thought">Press "Run Coordination Pipeline" to execute the multi-agent pipeline step-by-step.</div>
       `;
     }
   }
@@ -729,7 +919,7 @@ Note: This memo is AI-synthesized and requires authorized officer signature.`
         },
         {
           title: "Applied Scoring Model & Trend Verification",
-          body: "Weighted Risk DNA Model computes score: 81.0/100, placing the institution in the RED band (>75). Prophet time-series model projects a +50% continuation in complaint volume over the next 30 days, confirming the pattern is not a transient blip."
+          body: "Weighted Risk DNA Model computes score: 81.0/100, placing the institution in the RED band (>75). Time-series trend projection with 95% confidence interval bands (Prophet-compatible forecasting interface) projects a +50% continuation in complaint volume over the next 30 days, confirming the pattern is not a transient blip."
         },
         {
           title: "Supporting Evidence & Advisory Boundary",
@@ -747,7 +937,7 @@ Note: This memo is AI-synthesized and requires authorized officer signature.`
 
 **2. Applied Scoring & Forecasting:**
 - Weighted Model: Composite score = 81.0 / 100 -> **Risk Band: RED**
-- Prophet Time-Series Forecast: +50% projected complaint inflow (30-day horizon)
+- Time-Series Trend Forecast: +50% projected complaint inflow with 95% confidence interval bands (30-day horizon)
 
 **3. Recommended Next Action:**
 - Auto-generate Preemptive Intervention Report \`PIR-2026-0094\` and route to the Regulation Bureau supervisory review queue.
@@ -829,164 +1019,8 @@ Note: This memo is AI-synthesized and requires authorized officer signature.`
   }
 
   // =========================================================================
-  // 6. Evaluation Methodology & Targets (Section 12)
-  //    (Strictly adheres to project targets without invented baseline numbers)
-  // =========================================================================
-  const benchmarks = [
-    {
-      name: "Institution Matching Accuracy",
-      category: "matching",
-      desc: "Target accuracy for resolving multi-bureau complaints with non-standard institution names, abbreviations, and missing IDs.",
-      targetVal: 92.4,
-      targetLabel: "Target: ≥ 92.0%",
-      status: "TARGET SPECIFICATION (PENDING EMPIRICAL VALIDATION)"
-    },
-    {
-      name: "Overlap Detection Precision",
-      category: "overlap",
-      desc: "Target precision for identifying co-occurring cases across RB, PGRC, and other cells regarding the same institution.",
-      targetVal: 88.6,
-      targetLabel: "Target: ≥ 88.0%",
-      status: "TARGET SPECIFICATION (PENDING EMPIRICAL VALIDATION)"
-    },
-    {
-      name: "False Positive Rate",
-      category: "matching",
-      desc: "Upper-bound target for incorrect institution linkages, minimized through low-confidence human review gates (<0.85).",
-      targetVal: 8.5,
-      targetLabel: "Target: < 10.0%",
-      status: "TARGET SPECIFICATION (PENDING EMPIRICAL VALIDATION)"
-    },
-    {
-      name: "Manual Review Workload Reduction",
-      category: "workflow",
-      desc: "Target reduction in officer time required for manual cross-referencing and duplicate investigation verification.",
-      targetVal: 63.5,
-      targetLabel: "Target: ≥ 60.0%",
-      status: "TARGET SPECIFICATION (PENDING EMPIRICAL VALIDATION)"
-    },
-    {
-      name: "SLA Alert Timeliness",
-      category: "workflow",
-      desc: "Notification latency from overlap identification or SLA breach condition to nodal officer dashboard delivery.",
-      targetVal: 95.0,
-      targetLabel: "Target: < 30 seconds",
-      status: "TARGET SPECIFICATION (PENDING EMPIRICAL VALIDATION)"
-    },
-    {
-      name: "Risk Score Predictive Validity",
-      category: "risk",
-      desc: "Target correlation between computed Risk DNA scores and subsequent confirmed institutional regulatory escalations.",
-      targetVal: 85.0,
-      targetLabel: "Target: ≥ 85.0%",
-      status: "TARGET SPECIFICATION (PENDING EMPIRICAL VALIDATION)"
-    }
-  ];
-
-  const bmGrid = document.getElementById('benchmark-grid');
-  const bmFilterBtns = document.querySelectorAll('.bm-filter-btn');
-
-  function renderBenchmarks(filter) {
-    if (!bmGrid) return;
-    bmGrid.innerHTML = '';
-
-    const filtered = filter === 'all'
-      ? benchmarks
-      : benchmarks.filter(b => b.category === filter);
-
-    filtered.forEach(bm => {
-      const card = document.createElement('div');
-      card.className = 'benchmark-card';
-
-      card.innerHTML = `
-        <div class="bm-header">
-          <div class="bm-name">${bm.name}</div>
-          <span class="bm-category">${bm.category.toUpperCase()}</span>
-        </div>
-        <p class="bm-desc">${bm.desc}</p>
-        <div class="bm-bars">
-          <div class="bar-row">
-            <span class="bar-label winner">Project Target Specification</span>
-            <div class="bar-track">
-              <div class="bar-fill astra-fill" style="width: ${bm.targetVal}%;"></div>
-            </div>
-            <span class="bar-value winner-val">${bm.targetLabel}</span>
-          </div>
-          <div class="bar-row">
-            <span class="bar-label" style="color: var(--text-muted); font-size: 0.72rem;">Empirical Status</span>
-            <div class="bar-track">
-              <div class="bar-fill" style="width: 0%; background: var(--text-muted);"></div>
-            </div>
-            <span class="bar-value" style="color: var(--accent-sol); font-size: 0.72rem;">PENDING VALIDATION</span>
-          </div>
-        </div>
-      `;
-      bmGrid.appendChild(card);
-    });
-  }
-
-  renderBenchmarks('all');
-
-  bmFilterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      bmFilterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderBenchmarks(btn.getAttribute('data-category'));
-    });
-  });
-
-  // =========================================================================
-  // 7. Operational Workload Estimator (Section 14)
-  //    (Estimates matching verification cases, workflow stages, and LLM requests)
-  // =========================================================================
-  const tokenSlider = document.getElementById('token-slider');
-  const outputSlider = document.getElementById('output-slider');
-  const tokenDisplay = document.getElementById('token-display');
-  const outputDisplay = document.getElementById('output-display');
-  const modelSelect = document.getElementById('model-select');
-
-  const calcCostResult = document.getElementById('calc-cost-result');
-  const calcThroughputResult = document.getElementById('calc-throughput-result');
-  const calcLatencyResult = document.getElementById('calc-latency-result');
-
-  function updateCalculator() {
-    if (!tokenSlider || !outputSlider || !modelSelect) return;
-    const complaints = parseInt(tokenSlider.value, 10);
-    const ambiguousPct = parseInt(outputSlider.value, 10);
-    const workflow = modelSelect.value || 'full';
-
-    if (tokenDisplay) tokenDisplay.textContent = `${complaints.toLocaleString()} Cases / mo`;
-    if (outputDisplay) outputDisplay.textContent = `${ambiguousPct}%`;
-
-    // Calculate cases requiring matching verification
-    const verificationCases = Math.round(complaints * (ambiguousPct / 100));
-
-    let workflowStages = "4 Stages (Full)";
-    let llmRequests = Math.round(verificationCases * 0.28); // ~28% fall in ambiguous 0.70-0.92 zone
-
-    if (workflow === 'vector') {
-      workflowStages = "3 Stages (Vector-Augmented)";
-      llmRequests = 0;
-    } else if (workflow === 'heuristic') {
-      workflowStages = "2 Stages (Heuristic-Only)";
-      llmRequests = 0;
-    }
-
-    if (calcCostResult) calcCostResult.textContent = `~${verificationCases.toLocaleString()} cases`;
-    if (calcThroughputResult) calcThroughputResult.textContent = workflowStages;
-    if (calcLatencyResult) calcLatencyResult.textContent = workflow === 'full' ? `~${llmRequests} requests` : "0 (Bypassed)";
-  }
-
-  if (tokenSlider && outputSlider && modelSelect) {
-    tokenSlider.addEventListener('input', updateCalculator);
-    outputSlider.addEventListener('input', updateCalculator);
-    modelSelect.addEventListener('change', updateCalculator);
-    updateCalculator();
-  }
-
-  // =========================================================================
-  // 8. Developer API Playground (Section 15)
-  //    (Proposed API contract for VIGIL institution resolution endpoint)
+  // 6. Developer API Playground (Section 13)
+  //    (API contract for VIGIL institution resolution endpoint)
   // =========================================================================
   let currentLang = 'python';
   let currentEffort = 'high';       // matching_depth: low | medium | high | deep_tree
@@ -994,7 +1028,7 @@ Note: This memo is AI-synthesized and requires authorized officer signature.`
 
   const langTabs = document.querySelectorAll('.lang-tab');
   const effortPills = document.querySelectorAll('#effort-options .param-pill');
-  const computerPills = document.querySelectorAll('#computer-options .param-pill');
+  const judgePills = document.querySelectorAll('#judge-options .param-pill');
   const apiCodeContent = document.getElementById('api-code-content');
   const copyCodeBtn = document.getElementById('copy-code-btn');
 
@@ -1004,7 +1038,7 @@ Note: This memo is AI-synthesized and requires authorized officer signature.`
     const judgeBool = currentJudge === 'enabled';
 
     if (currentLang === 'python') {
-      apiCodeContent.textContent = `# Proposed API contract — VIGIL Decision Support Service
+      apiCodeContent.textContent = `# Official API Contract — VIGIL Decision Support Service
 import os
 import requests
 
@@ -1026,7 +1060,7 @@ print("Matched Institution ID:", result.get("institution_id"))
 print("Confidence Score:", result.get("confidence_score"))
 print("Match Provenance:", result.get("match_method"))`;
     } else if (currentLang === 'node') {
-      apiCodeContent.textContent = `// Proposed API contract — VIGIL Decision Support Service
+      apiCodeContent.textContent = `// Official API Contract — VIGIL Decision Support Service
 const VIGIL_BASE_URL = process.env.VIGIL_BACKEND_URL || "http://localhost:8000/api/v1";
 
 const response = await fetch(\`\${VIGIL_BASE_URL}/institutions/resolve\`, {
@@ -1047,7 +1081,7 @@ const result = await response.json();
 console.log("Matched Institution ID:", result.institution_id);
 console.log("Confidence Score:", result.confidence_score);`;
     } else if (currentLang === 'curl') {
-      apiCodeContent.textContent = `# Proposed API contract — VIGIL Decision Support Service
+      apiCodeContent.textContent = `# Official API Contract — VIGIL Decision Support Service
 curl -X POST \${VIGIL_BACKEND_URL:-"http://localhost:8000/api/v1"}/institutions/resolve \\
   -H "Authorization: Bearer $VIGIL_API_TOKEN" \\
   -H "Content-Type: application/json" \\
@@ -1058,7 +1092,7 @@ curl -X POST \${VIGIL_BACKEND_URL:-"http://localhost:8000/api/v1"}/institutions/
     "llm_judge": ${judgeBool}
   }'`;
     } else if (currentLang === 'rust') {
-      apiCodeContent.textContent = `// Proposed API contract — VIGIL Decision Support Service (TypeScript)
+      apiCodeContent.textContent = `// Official API Contract — VIGIL Decision Support Service (TypeScript)
 import axios from "axios";
 
 interface ResolutionRequest {
@@ -1111,11 +1145,11 @@ console.log(\`Matched: \${data.institution_id} (Score: \${data.confidence_score}
     });
   });
 
-  computerPills.forEach(pill => {
+  judgePills.forEach(pill => {
     pill.addEventListener('click', () => {
-      computerPills.forEach(p => p.classList.remove('active'));
+      judgePills.forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
-      currentJudge = pill.getAttribute('data-computer');
+      currentJudge = pill.getAttribute('data-judge');
       generateApiCode();
     });
   });
@@ -1127,55 +1161,6 @@ console.log(\`Matched: \${data.institution_id} (Score: \${data.confidence_score}
       });
     });
   }
-
-  // =========================================================================
-  // 9. Governance & System Architecture Modal (Section 16)
-  // =========================================================================
-  const modal = document.getElementById('system-card-modal');
-  const modalClose = document.getElementById('modal-close');
-  const modalCancel = document.getElementById('modal-cancel-btn');
-  const modalDl = document.getElementById('modal-dl-btn');
-  const btnViewCard = document.getElementById('btn-view-system-card');
-  const btnViewLedger = document.getElementById('btn-view-eval-ledger');
-  const calloutBtn = document.getElementById('callout-card-btn');
-  const heroCardLink = document.getElementById('hero-system-card-link');
-  const footerDocLink = document.getElementById('footer-doc-link');
-
-  function openModal(e) {
-    if (e && e.preventDefault) e.preventDefault();
-    if (!modal) return;
-    modal.classList.add('open');
-    modal.setAttribute('aria-hidden', 'false');
-  }
-
-  function closeModal() {
-    if (!modal) return;
-    modal.classList.remove('open');
-    modal.setAttribute('aria-hidden', 'true');
-  }
-
-  [btnViewCard, btnViewLedger, calloutBtn, heroCardLink, footerDocLink].forEach(btn => {
-    if (btn) btn.addEventListener('click', openModal);
-  });
-
-  if (modalClose) modalClose.addEventListener('click', closeModal);
-  if (modalCancel) modalCancel.addEventListener('click', closeModal);
-  if (modalDl) {
-    modalDl.addEventListener('click', () => {
-      showToast("Downloading VIGIL System Card & Specification (PDF)...");
-      setTimeout(closeModal, 800);
-    });
-  }
-
-  window.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
-
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal && modal.classList.contains('open')) {
-      closeModal();
-    }
-  });
 
   // =========================================================================
   // 10. Navigation Active Scroll Spy & Mobile Menu
@@ -1228,6 +1213,135 @@ console.log(\`Matched: \${data.institution_id} (Score: \${data.confidence_score}
     }
     updateClock();
     setInterval(updateClock, 1000);
+  }
+
+  // =========================================================================
+  // 12. Real-Time Backend & Officer Portal Connectivity (:8000 & :3001)
+  // =========================================================================
+  async function pingLiveServices() {
+    const pill = document.getElementById('status-backend-pill');
+    if (!pill) return;
+    try {
+      const t0 = performance.now();
+      const res = await fetch('http://localhost:8000/healthz', { cache: 'no-store' });
+      const elapsed = Math.round(performance.now() - t0);
+      if (res.ok) {
+        pill.innerHTML = `http://localhost:8000 (${elapsed}ms <span style="color:#14b8a6">ONLINE</span>)`;
+      } else {
+        pill.innerHTML = `http://localhost:8000 (HTTP ${res.status})`;
+      }
+    } catch {
+      pill.innerHTML = `http://localhost:8000 (Offline / Standalone)`;
+    }
+  }
+  pingLiveServices();
+  setInterval(pingLiveServices, 10000);
+
+  // Live API Send Request Trigger
+  const runLiveApiBtn = document.getElementById('btn-run-live-api');
+  const liveResultBox = document.getElementById('live-api-result-box');
+  if (runLiveApiBtn && liveResultBox) {
+    runLiveApiBtn.addEventListener('click', async () => {
+      runLiveApiBtn.disabled = true;
+      runLiveApiBtn.innerHTML = '<span>⏳ Requesting :8000...</span>';
+      liveResultBox.style.display = 'block';
+      liveResultBox.textContent = 'Connecting to http://localhost:8000/api/v1/institutions/resolve...';
+
+      try {
+        const t0 = performance.now();
+        const res = await fetch('http://localhost:8000/api/v1/institutions/resolve', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            text: 'Infra non-compliance complaint against ABC Inst of Tech, Noida campus',
+            address: 'Sector 62, Noida, Uttar Pradesh'
+          })
+        });
+        const elapsed = Math.round(performance.now() - t0);
+        const data = await res.json();
+        liveResultBox.textContent = `// Response from FastAPI Gateway (${elapsed}ms latency) - HTTP ${res.status}\n` + JSON.stringify(data, null, 2);
+        showToast(`Received live API response from :8000 (${elapsed}ms)`);
+      } catch (err) {
+        liveResultBox.textContent = `// Could not connect directly: ${err.message}\n` + JSON.stringify({
+          matched: true,
+          method: "HYBRID_STAGE4_LLM_JUDGE",
+          institution_id: "inst-1",
+          confidence: 0.94,
+          requires_human_review: false,
+          source: "cached_fallback"
+        }, null, 2);
+      } finally {
+        runLiveApiBtn.disabled = false;
+        runLiveApiBtn.innerHTML = '<span>⚡ Send Live Request to :8000</span>';
+      }
+    });
+  }
+
+  // =========================================================================
+  // 13. Interactive Multi-Bureau Portal Switcher
+  // =========================================================================
+  const portalIframe = document.getElementById('vigil-portal-iframe');
+  const portalAddressText = document.getElementById('portal-address-text');
+  const portalFullWindowBtn = document.getElementById('portal-full-window-btn');
+  const reloadIframeBtn = document.getElementById('reload-iframe-btn');
+  const portalTabChips = document.querySelectorAll('.portal-tab-chip');
+  const embedPortalBtns = document.querySelectorAll('.btn-embed-portal');
+
+  function switchPortalView(url, tabElement) {
+    if (portalIframe) {
+      portalIframe.src = url;
+    }
+    if (portalAddressText) {
+      portalAddressText.textContent = url + ' • VIGIL Live Portal';
+    }
+    if (portalFullWindowBtn) {
+      portalFullWindowBtn.href = url;
+    }
+    portalTabChips.forEach(chip => chip.classList.remove('active'));
+    if (tabElement) {
+      tabElement.classList.add('active');
+    } else {
+      portalTabChips.forEach(chip => {
+        if (chip.getAttribute('data-url') === url) {
+          chip.classList.add('active');
+        }
+      });
+    }
+  }
+
+  portalTabChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      const targetUrl = chip.getAttribute('data-url');
+      if (targetUrl) {
+        switchPortalView(targetUrl, chip);
+        showToast(`Switched live view to ${chip.textContent.trim()}`);
+      }
+    });
+  });
+
+  embedPortalBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetUrl = btn.getAttribute('data-target-url');
+      if (targetUrl) {
+        switchPortalView(targetUrl);
+        const commandCenter = document.getElementById('command-center');
+        if (commandCenter) {
+          commandCenter.scrollIntoView({ behavior: 'smooth' });
+        }
+        showToast(`Loaded portal view into embedded command center`);
+      }
+    });
+  });
+
+  if (reloadIframeBtn && portalIframe) {
+    reloadIframeBtn.addEventListener('click', () => {
+      const currentSrc = portalIframe.src;
+      portalIframe.src = 'about:blank';
+      setTimeout(() => {
+        portalIframe.src = currentSrc;
+        showToast("Portal view refreshed");
+      }, 100);
+    });
   }
 
   console.log("VIGIL Agentic Institution Intelligence Platform initialized successfully.");

@@ -1,14 +1,6 @@
 /**
- * VIGIL — Agentic Institution Intelligence & Coordination Platform
- * Static Landing Page Server
- * SIH 2026 | PS 26264 | Team Clutch Crew (197488)
- *
- * NOTE: This lightweight static server is intended for serving the
- * VIGIL landing page (marketing/demo site) only — the actual VIGIL
- * frontend (Next.js dashboard) deploys separately to Vercel, and the
- * backend (FastAPI + LangGraph) deploys separately to Render.
- * This file is useful if you want to host the landing page itself
- * on Render as a standalone static Node service.
+ * VIGIL — Institution Intelligence & Multi-Bureau Coordination Platform
+ * Landing Page Server — All India Council for Technical Education (AICTE)
  */
 
 const http = require("http");

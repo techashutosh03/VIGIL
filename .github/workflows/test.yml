@@ -1,0 +1,48 @@
+name: Test Suite
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  backend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          cd backend
+          pip install -r requirements.txt pytest pytest-mock httpx PyJWT
+      - name: Run unit & integration tests
+        run: |
+          cd backend
+          pytest tests/ -v --ignore=tests/brutal
+
+  brutal-tests:
+    runs-on: ubuntu-latest
+    needs: backend-tests
+    continue-on-error: true   # brutal tests may legitimately fail and surface real bugs — don't block merges on discovery, DO require human review of failures
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          cd backend
+          pip install -r requirements.txt pytest pytest-mock httpx PyJWT
+      - name: Run brutal tests
+        run: |
+          cd backend
+          pytest tests/brutal/ -v --tb=short -m "not load"
+      - name: Upload brutal test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: brutal-test-results
+          path: backend/tests/brutal/

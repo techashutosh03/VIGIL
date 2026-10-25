@@ -13,6 +13,11 @@ Think step-by-step (Chain-of-Thought), then output ONLY valid JSON in this exact
 {{"is_same_institution": true/false, "confidence": 0.0-1.0, "reasoning": "short explanation"}}
 """
 
+def call_groq(*args, **kwargs):
+    if client is None:
+        return None
+    return client.chat.completions.create(*args, **kwargs)
+
 def judge_same_institution(record_a: str, record_b: str) -> dict:
     if client is None:
         return {
@@ -21,7 +26,7 @@ def judge_same_institution(record_a: str, record_b: str) -> dict:
             "reasoning": "[DEMO MODE — GROQ_API_KEY not set] Simulated high-confidence match based on name overlap."
         }
 
-    completion = client.chat.completions.create(
+    completion = call_groq(
         model="llama-3.1-70b-versatile",
         messages=[{"role": "user", "content": JUDGE_PROMPT.format(record_a=record_a, record_b=record_b)}],
         temperature=0.1,
@@ -32,3 +37,4 @@ def judge_same_institution(record_a: str, record_b: str) -> dict:
         return json.loads(content)
     except json.JSONDecodeError:
         return {"is_same_institution": False, "confidence": 0.0, "reasoning": "LLM parse error"}
+

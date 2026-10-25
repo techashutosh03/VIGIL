@@ -29,19 +29,43 @@ LOCAL_SEED_INSTITUTIONS = [
     },
 ]
 
-def resolve_institution(raw_name: str, address: str = "", aicte_id: str | None = None) -> dict:
+def is_ambiguous_zone(score: float) -> bool:
+    """Returns True if score falls strictly in the ambiguous threshold band [0.70, 0.92)."""
+    return settings.AMBIGUOUS_LOW <= score < settings.AMBIGUOUS_HIGH
+
+def evaluate_match_confidence(confidence: float) -> dict:
+    """Evaluates whether a match confidence meets AI auto-resolution or mandates human review."""
+    return {
+        "confidence": confidence,
+        "requires_human_review": confidence < settings.HUMAN_REVIEW_THRESHOLD
+    }
+
+def resolve_institution(raw_name: str, address: str = "", aicte_id: str | None = None, region: str = "", supabase_client=None, **kwargs) -> dict:
+    sb = supabase_client or kwargs.get("supabase") or supabase
+    if raw_name is None:
+        raise ValueError("Institution name cannot be None")
+
+    raw_name_str = str(raw_name).strip()
+    if not raw_name_str:
+        return {
+            "matched": False,
+            "institution": None,
+            "stages": [{"stage": "validation", "confidence": 0.0, "note": "Empty or whitespace name"}],
+            "method": "none"
+        }
+
     stages = []
 
     # STAGE 1 — Exact AICTE ID match
     if aicte_id:
-        if supabase is not None:
+        if sb is not None:
             try:
-                res = supabase.table("institutions").select("*").eq("aicte_permanent_id", aicte_id).execute()
+                res = sb.table("institutions").select("*").eq("aicte_permanent_id", aicte_id).execute()
                 if res.data:
                     inst = res.data[0]
                     stages.append({"stage": "exact", "confidence": 1.0, "matched_id": inst["id"]})
                     write_audit_log("INSTITUTION_MATCHED", "DNAEngineAgent",
-                                     {"method": "exact", "institution_id": inst["id"]})
+                                     {"method": "exact", "institution_id": inst["id"]}, supabase_client=sb)
                     return {"matched": True, "institution": inst, "stages": stages, "method": "exact"}
             except Exception:
                 pass
@@ -49,16 +73,16 @@ def resolve_institution(raw_name: str, address: str = "", aicte_id: str | None =
             if c.get("aicte_permanent_id") == aicte_id:
                 stages.append({"stage": "exact", "confidence": 1.0, "matched_id": c["id"]})
                 write_audit_log("INSTITUTION_MATCHED", "DNAEngineAgent",
-                                 {"method": "exact", "institution_id": c["id"]})
+                                 {"method": "exact", "institution_id": c["id"]}, supabase_client=sb)
                 return {"matched": True, "institution": c, "stages": stages, "method": "exact"}
 
     stages.append({"stage": "exact", "confidence": 0.0, "note": "no AICTE ID match"})
 
     # Pull candidate institutions (Supabase or local fallback)
     candidates = []
-    if supabase is not None:
+    if sb is not None:
         try:
-            candidates = supabase.table("institutions").select("*").limit(200).execute().data
+            candidates = sb.table("institutions").select("*").limit(200).execute().data
         except Exception:
             candidates = []
     if not candidates:
@@ -67,7 +91,7 @@ def resolve_institution(raw_name: str, address: str = "", aicte_id: str | None =
     # STAGE 2 — Fuzzy + Phonetic
     best_fuzzy, best_fuzzy_score = None, 0.0
     for c in candidates:
-        score_data = fuzzy_score(raw_name, c["name"])
+        score_data = fuzzy_score(raw_name_str, c["name"])
         if score_data["combined_score"] > best_fuzzy_score:
             best_fuzzy_score = score_data["combined_score"]
             best_fuzzy = c
@@ -76,14 +100,14 @@ def resolve_institution(raw_name: str, address: str = "", aicte_id: str | None =
 
     if best_fuzzy_score > 92 and best_fuzzy:  # very high fuzzy confidence, short-circuit
         write_audit_log("INSTITUTION_MATCHED", "DNAEngineAgent",
-                         {"method": "fuzzy", "institution_id": best_fuzzy["id"], "score": best_fuzzy_score})
+                         {"method": "fuzzy", "institution_id": best_fuzzy["id"], "score": best_fuzzy_score}, supabase_client=sb)
         # Populate stage 3 & 4 with confidence for UI visualization
         stages.append({"stage": "semantic", "confidence": 0.95})
         stages.append({"stage": "llm_judge", "confidence": 0.98})
         return {"matched": True, "institution": best_fuzzy, "stages": stages, "method": "fuzzy"}
 
     # STAGE 3 — Semantic vector match
-    query_text = f"{raw_name} {address}".strip()
+    query_text = f"{raw_name_str} {address}".strip()
     query_vec = embed_text(query_text)
 
     best_semantic, best_semantic_score = None, 0.0
@@ -104,23 +128,24 @@ def resolve_institution(raw_name: str, address: str = "", aicte_id: str | None =
 
     if top_score >= settings.AMBIGUOUS_HIGH and top_candidate:
         write_audit_log("INSTITUTION_MATCHED", "DNAEngineAgent",
-                         {"method": "semantic", "institution_id": top_candidate["id"], "score": top_score})
+                         {"method": "semantic", "institution_id": top_candidate["id"], "score": top_score}, supabase_client=sb)
         stages.append({"stage": "llm_judge", "confidence": 0.96})
         return {"matched": True, "institution": top_candidate, "stages": stages, "method": "semantic"}
 
     # STAGE 4 — LLM Judge (in ambiguous zone)
     if top_candidate:
         verdict = judge_same_institution(
-            f"{raw_name}, {address}",
+            f"{raw_name_str}, {address}",
             f"{top_candidate['name']}, {top_candidate.get('address','')}"
         )
         stages.append({"stage": "llm_judge", "confidence": verdict["confidence"], "reasoning": verdict.get("reasoning", "")})
 
-        requires_human_review = verdict["confidence"] < settings.HUMAN_REVIEW_THRESHOLD
+        conf_eval = evaluate_match_confidence(verdict["confidence"])
+        requires_human_review = conf_eval["requires_human_review"]
 
         write_audit_log("INSTITUTION_MATCHED" if verdict["is_same_institution"] else "NEW_INSTITUTION_CREATED",
                          "LLMJudgeAgent",
-                         {"verdict": verdict, "candidate_id": top_candidate["id"]})
+                         {"verdict": verdict, "candidate_id": top_candidate["id"]}, supabase_client=sb)
 
         return {
             "matched": verdict["is_same_institution"],
@@ -132,15 +157,15 @@ def resolve_institution(raw_name: str, address: str = "", aicte_id: str | None =
         }
 
     # No match found anywhere → create new institution
-    new_institution = {"name": raw_name, "address": address, "embedding": query_vec, "risk_score": "GREEN"}
+    new_institution = {"name": raw_name_str, "address": address, "embedding": query_vec, "risk_score": "GREEN"}
     created = None
-    if supabase is not None:
+    if sb is not None:
         try:
-            created = supabase.table("institutions").insert(new_institution).execute().data[0]
+            created = sb.table("institutions").insert(new_institution).execute().data[0]
         except Exception:
             pass
 
-    write_audit_log("NEW_INSTITUTION_CREATED", "DNAEngineAgent", {"name": raw_name})
+    write_audit_log("NEW_INSTITUTION_CREATED", "DNAEngineAgent", {"name": raw_name_str}, supabase_client=sb)
     stages.append({"stage": "new_institution", "confidence": 1.0})
 
     return {"matched": False, "institution": created or new_institution, "stages": stages, "method": "new"}

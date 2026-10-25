@@ -1,5 +1,6 @@
 "use client";
 import { useEventStream } from "@/lib/useEventStream";
+import { LiveBadge } from "@/components/ui/LiveBadge";
 
 type MediatorEvent = { source: "RB" | "PGRC" | "AI_MEDIATOR"; text: string; ts: string };
 
@@ -17,13 +18,16 @@ function* demoWarRoom(): Generator<MediatorEvent> {
 }
 
 export default function WarRoomPanel({ overlapId }: { overlapId: string }) {
-  const events = useEventStream<MediatorEvent>(`/api/v1/overlaps/${overlapId}/stream`, demoWarRoom, 1600);
+  const { events, source } = useEventStream<MediatorEvent>(`/api/v1/overlaps/${overlapId}/stream`, demoWarRoom, 1600);
 
   return (
     <div className="rounded-2xl border border-amber-500/30 bg-slate-950/70 p-5">
-      <h3 className="text-sm font-semibold text-amber-400 uppercase tracking-wide mb-4">
-        ⚡ Overlap War Room — Active
-      </h3>
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-sm font-semibold text-amber-400 uppercase tracking-wide">
+          ⚡ Overlap War Room — Active
+        </h3>
+        <LiveBadge source={source} />
+      </div>
       <div className="space-y-3 max-h-80 overflow-y-auto">
         {events.map((e, i) => (
           <div

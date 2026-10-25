@@ -1,5 +1,8 @@
 {
-  "framework": "nextjs",
   "buildCommand": "npm run build",
-  "installCommand": "npm install"
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "env": {
+    "NEXT_PUBLIC_API_URL": "@vigil_api_url"
+  }
 }

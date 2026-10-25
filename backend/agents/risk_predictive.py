@@ -5,9 +5,39 @@ from core.database import supabase
 
 SEVERITY_WEIGHTS = {"LOW": 1, "MEDIUM": 2, "HIGH": 3, "CRITICAL": 5}
 
-def compute_risk_score(institution_id: str) -> dict:
+def calculate_risk_band(score: float) -> str:
+    return "RED" if score >= 75 else "AMBER" if score >= 40 else "GREEN"
+
+def compute_risk_score(
+    institution_id: str | None = None,
+    frequency: float | None = None,
+    severity: float | None = None,
+    overlap: float | None = None,
+    ageing: float | None = None
+) -> dict:
+    if frequency is not None or severity is not None or overlap is not None or ageing is not None:
+        freq_val = min(max(float(frequency or 0), 0), 40)
+        sev_val = min(max(float(severity or 0), 0), 25)
+        ovl_val = min(max(float(overlap or 0), 0), 20)
+        age_val = min(max(float(ageing or 0), 0), 15)
+        total = round(freq_val + sev_val + ovl_val + age_val, 1)
+        total = min(total, 100)
+        band = calculate_risk_band(total)
+        return {
+            "score": total,
+            "band": band,
+            "frequency": freq_val,
+            "severity": sev_val,
+            "overlap": ovl_val,
+            "ageing": age_val,
+            "frequency_component": freq_val,
+            "severity_component": sev_val,
+            "overlap_component": ovl_val,
+            "ageing_component": age_val,
+        }
+
     complaints = []
-    if supabase is not None:
+    if supabase is not None and institution_id:
         try:
             complaints = supabase.table("complaints").select("*").eq("institution_id", institution_id).execute().data
         except Exception:
@@ -15,18 +45,30 @@ def compute_risk_score(institution_id: str) -> dict:
 
     if not complaints:
         # Default baseline scoring for demo/seed data
-        return {"score": 82.0, "frequency": 32, "severity": 20, "overlap": 20, "ageing": 10}
+        total = 82.0
+        return {
+            "score": total,
+            "band": calculate_risk_band(total),
+            "frequency": 32,
+            "severity": 20,
+            "overlap": 20,
+            "ageing": 10,
+            "frequency_component": 32,
+            "severity_component": 20,
+            "overlap_component": 20,
+            "ageing_component": 10
+        }
 
     # Frequency component (more complaints = higher risk, capped at 40)
-    frequency = min(len(complaints) * 8, 40)
+    frequency_calc = min(len(complaints) * 8, 40)
 
     # Severity component (avg severity weight, scaled to 25)
     sev_total = sum(SEVERITY_WEIGHTS.get(c.get("severity", "MEDIUM"), 2) for c in complaints)
-    severity = min((sev_total / len(complaints)) * 5, 25)
+    severity_calc = min((sev_total / len(complaints)) * 5, 25)
 
     # Overlap component (complaints across multiple bureaus = higher risk)
     bureaus = set(c["bureau"] for c in complaints)
-    overlap = 20 if len(bureaus) > 1 else 0
+    overlap_calc = 20 if len(bureaus) > 1 else 0
 
     # Ageing component (unresolved + old = higher risk)
     now = datetime.utcnow()
@@ -39,77 +81,73 @@ def compute_risk_score(institution_id: str) -> dict:
                     aged_unresolved.append(c)
             except Exception:
                 pass
-    ageing = min(len(aged_unresolved) * 5, 15)
+    ageing_calc = min(len(aged_unresolved) * 5, 15)
 
-    total = round(frequency + severity + overlap + ageing, 1)
+    total = round(frequency_calc + severity_calc + overlap_calc + ageing_calc, 1)
     total = min(total, 100)
+    band = calculate_risk_band(total)
 
-    result = {"score": total, "frequency": frequency, "severity": severity, "overlap": overlap, "ageing": ageing}
+    result = {
+        "score": total,
+        "band": band,
+        "frequency": frequency_calc,
+        "severity": severity_calc,
+        "overlap": overlap_calc,
+        "ageing": ageing_calc,
+        "frequency_component": frequency_calc,
+        "severity_component": severity_calc,
+        "overlap_component": overlap_calc,
+        "ageing_component": ageing_calc,
+    }
 
-    if supabase is not None:
+    if supabase is not None and institution_id:
         try:
             supabase.table("risk_scores").upsert({
                 "institution_id": institution_id,
                 "score": total,
-                "frequency_component": frequency,
-                "severity_component": severity,
-                "overlap_component": overlap,
-                "ageing_component": ageing,
+                "frequency_component": frequency_calc,
+                "severity_component": severity_calc,
+                "overlap_component": overlap_calc,
+                "ageing_component": ageing_calc,
             }, on_conflict="institution_id").execute()
 
-            band = "RED" if total >= 75 else "AMBER" if total >= 40 else "GREEN"
             supabase.table("institutions").update({"risk_score": band}).eq("id", institution_id).execute()
         except Exception as e:
             print(f"[WARN] Failed to persist risk score: {e}")
 
     return result
 
-def forecast_grievance_outbreak(institution_id: str, days_ahead: int = 30) -> dict:
+from services.forecasting_service import forecast_with_prophet, PROPHET_AVAILABLE
+
+def forecast_grievance_outbreak(institution_id: str, days_ahead: int = 30, periods: int = None) -> dict:
     """
     Time-series predictive forecasting for institutional complaint volume.
-    Estimates probability of imminent multi-bureau grievance outbreak.
+    Uses Meta's Prophet if available and data is sufficient, otherwise falls back gracefully
+    to Prophet-compatible trend projection with 95% confidence intervals.
     """
-    now = datetime.utcnow()
-    
-    # 6-month historical baseline simulation / aggregation
-    history_days = 90
-    t = np.arange(history_days)
-    
-    # Base trend + weekly cycle + random noise
-    base_level = 2.0
-    trend = 0.03 * t
-    seasonality = 0.5 * np.sin(2 * np.pi * t / 7)
-    historical_series = np.maximum(0, base_level + trend + seasonality + np.random.normal(0, 0.3, history_days))
-    
-    # Fit linear projection
-    slope, intercept = np.polyfit(t, historical_series, 1)
-    future_t = np.arange(history_days, history_days + days_ahead)
-    projected = slope * future_t + intercept + 0.5 * np.sin(2 * np.pi * future_t / 7)
-    
-    # Standard error & confidence bounds (95%)
-    residual_std = np.std(historical_series - (slope * t + intercept))
-    upper_bound = projected + 1.96 * residual_std
-    lower_bound = np.maximum(0, projected - 1.96 * residual_std)
-    
-    current_avg = float(np.mean(historical_series[-14:]))
-    projected_avg = float(np.mean(projected))
-    growth_rate = round(((projected_avg - current_avg) / (current_avg + 1e-6)) * 100, 1)
-    
-    outbreak_probability = min(max(round((projected_avg / 8.0) * 0.95, 2), 0.15), 0.98)
-    
-    return {
-        "institution_id": institution_id,
-        "forecast_horizon_days": days_ahead,
-        "current_14d_daily_avg": round(current_avg, 2),
-        "projected_daily_avg": round(projected_avg, 2),
-        "growth_rate_pct": growth_rate,
-        "outbreak_probability": outbreak_probability,
-        "is_outbreak_risk": outbreak_probability >= 0.75,
-        "projected_trajectory": [round(float(p), 2) for p in projected[:14]],
-        "upper_bound_trajectory": [round(float(u), 2) for u in upper_bound[:14]],
-        "lower_bound_trajectory": [round(float(l), 2) for l in lower_bound[:14]],
-        "generated_at": now.isoformat()
-    }
+    horizon = periods if periods is not None else days_ahead
+    complaint_dates = []
+    if supabase is not None:
+        try:
+            res = supabase.table("complaints").select("created_at").eq("institution_id", institution_id).execute()
+            complaint_dates = [c["created_at"] for c in res.data if c.get("created_at")]
+        except Exception:
+            complaint_dates = []
+
+    result = forecast_with_prophet(complaint_dates, periods=horizon)
+    result["institution_id"] = institution_id
+    result["forecast_horizon_days"] = horizon
+    result["engine_used"] = "Prophet (Meta)" if result["method"] == "prophet" else "Trend Projection (Prophet-compatible fallback)"
+    result["prophet_installed"] = PROPHET_AVAILABLE
+    result["projected_trajectory"] = result["predicted_trajectory"]
+    result["growth_rate_pct"] = result.get("growth_rate_percent", 0.0)
+
+    growth_rate = result.get("growth_rate_percent", 0.0)
+    outbreak_probability = min(max(round((growth_rate / 100.0) * 0.95 + 0.35, 2), 0.15), 0.98)
+    result["outbreak_probability"] = outbreak_probability
+    result["is_outbreak_risk"] = result.get("outbreak_alert", False) or outbreak_probability >= 0.75
+    result["generated_at"] = datetime.utcnow().isoformat()
+    return result
 
 def cluster_institution_outbreaks() -> dict:
     """

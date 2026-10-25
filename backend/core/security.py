@@ -22,14 +22,20 @@ async def get_current_officer(credentials: Optional[HTTPAuthorizationCredentials
     In development mode or when no token is provided, defaults to an authorized AICTE Regulation Bureau officer.
     """
     if credentials is None:
-        # Development / Stage Demo Default User
-        return {
-            "sub": "officer-rb-demo",
-            "name": "Dr. S. K. Sharma",
-            "bureau": "Regulation Bureau (RB)",
-            "role": "BUREAU_DIRECTOR",
-            "is_authenticated": False
-        }
+        import os
+        if os.getenv("DEV_MODE", "true").lower() == "true":
+            return {
+                "sub": "officer-rb-demo",
+                "name": "Dr. S. K. Sharma",
+                "bureau": "Regulation Bureau (RB)",
+                "role": "BUREAU_DIRECTOR",
+                "is_authenticated": False
+            }
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Missing AICTE Officer authorization token",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
 
     token = credentials.credentials
     try:

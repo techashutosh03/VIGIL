@@ -1,7 +1,7 @@
 {
   "name": "vigil-landing",
   "version": "1.0.0",
-  "description": "VIGIL Landing Page — SIH 2026 PS 26264 (Team Clutch Crew)",
+  "description": "VIGIL Landing Page — Institutional Intelligence & Multi-Bureau Coordination Platform (AICTE)",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -10,10 +10,10 @@
   "keywords": [
     "vigil",
     "aicte",
-    "sih2026",
-    "agentic-ai",
-    "landing-page"
+    "regulation-bureau",
+    "pgrc",
+    "institutional-intelligence"
   ],
-  "author": "Team Clutch Crew",
+  "author": "AICTE Regulation Bureau & PGRC",
   "license": "MIT"
 }

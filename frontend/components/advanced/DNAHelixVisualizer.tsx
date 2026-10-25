@@ -1,7 +1,9 @@
 "use client";
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { apiPost } from "@/lib/api";
+import { apiPostSafe } from "@/lib/api";
+import { LoadingCard } from "@/components/ui/LoadingSkeleton";
+import { ErrorState } from "@/components/ui/ErrorState";
 
 type Stage = {
   stage: string;
@@ -18,18 +20,22 @@ const STAGE_LABELS = [
 ];
 
 export default function DNAHelixVisualizer({ complaintText }: { complaintText: string }) {
+  const [inputText, setInputText] = useState(complaintText);
   const [stages, setStages] = useState<Stage[]>(
     STAGE_LABELS.map((s) => ({ ...s, confidence: 0, status: "pending" }))
   );
   const [running, setRunning] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [source, setSource] = useState<"live" | "fallback" | null>(null);
 
   async function runResolution() {
-    setRunning(true);
+    if (running || loading) return;
+    setLoading(true);
     setStages(STAGE_LABELS.map((s) => ({ ...s, confidence: 0, status: "pending" })));
 
-    const result = await apiPost(
+    const result = await apiPostSafe(
       "/api/v1/institutions/resolve",
-      { text: complaintText },
+      { institution_name_raw: inputText || complaintText, text: inputText || complaintText },
       {
         stages: [
           { stage: "exact", confidence: 0 },
@@ -40,12 +46,17 @@ export default function DNAHelixVisualizer({ complaintText }: { complaintText: s
       }
     );
 
+    setSource(result.source);
+    setLoading(false);
+    setRunning(true);
+
+    const resultStages = result.data.stages || [];
     for (let i = 0; i < STAGE_LABELS.length; i++) {
       setStages((prev) =>
         prev.map((s, idx) => (idx === i ? { ...s, status: "running" } : s))
       );
-      await new Promise((r) => setTimeout(r, 650));
-      const matched = result.stages.find((r: any) => r.stage === STAGE_LABELS[i].stage);
+      await new Promise((r) => setTimeout(r, 450));
+      const matched = resultStages.find((r: any) => r.stage === STAGE_LABELS[i].stage);
       setStages((prev) =>
         prev.map((s, idx) =>
           idx === i
@@ -57,19 +68,36 @@ export default function DNAHelixVisualizer({ complaintText }: { complaintText: s
     setRunning(false);
   }
 
+  if (loading) return <LoadingCard />;
+
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-6">
-      <div className="flex items-center justify-between mb-5">
+    <div className="rounded-2xl border border-slate-800 bg-slate-950/60 p-6 space-y-4">
+      {source === "fallback" && (
+        <ErrorState message="Backend unreachable — showing demo cached data." onRetry={runResolution} />
+      )}
+
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <h3 className="text-sm font-semibold text-teal-400 tracking-wide uppercase">
           Institution DNA Engine — Live Resolution
         </h3>
-        <button
-          onClick={runResolution}
-          disabled={running}
-          className="px-4 py-1.5 text-xs font-medium rounded-full bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white"
-        >
-          {running ? "Resolving…" : "Run DNA Match"}
-        </button>
+        <div className="flex items-center gap-2">
+          <input
+            data-testid="dna-input"
+            type="text"
+            value={inputText}
+            onChange={(e) => setInputText(e.target.value)}
+            placeholder="Test institution name..."
+            className="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-slate-200 focus:outline-none focus:border-teal-500 w-48 sm:w-64"
+          />
+          <button
+            data-testid="dna-resolve-btn"
+            onClick={runResolution}
+            disabled={running || loading}
+            className="px-4 py-1.5 text-xs font-medium rounded-full bg-blue-600 hover:bg-blue-500 disabled:opacity-50 text-white transition whitespace-nowrap"
+          >
+            {running ? "Resolving…" : "Run DNA Match"}
+          </button>
+        </div>
       </div>
 
       <div className="relative flex flex-col gap-4">
@@ -109,7 +137,7 @@ export default function DNAHelixVisualizer({ complaintText }: { complaintText: s
                 {s.status === "done"
                   ? s.stage === "fuzzy"
                     ? `${s.confidence.toFixed(1)}%`
-                    : `${(s.confidence * (s.confidence > 1 ? 1 : 100)).toFixed(1)}${s.confidence > 1 ? "%" : "%"}`
+                    : `${(s.confidence * (s.confidence > 1 ? 1 : 100)).toFixed(1)}%`
                   : "—"}
               </span>
             </div>

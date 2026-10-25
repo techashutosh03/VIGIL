@@ -82,19 +82,51 @@ def transition_state(complaint_id: str, new_state: str, performed_by: str) -> di
 
     return {"complaint_id": complaint_id, "new_state": new_state}
 
-def check_sla_breaches() -> list[dict]:
+def check_sla_breaches(supabase_client=None, supabase=None) -> list[dict]:
     """Run periodically (cron/background task) to auto-escalate breached cases."""
-    if supabase is None:
+    sb = supabase if supabase is not None else (supabase_client if supabase_client is not None else globals().get("supabase"))
+    if sb is None:
         return []
     try:
         now = datetime.utcnow().isoformat()
-        overdue = supabase.table("complaints").select("*") \
-            .lt("sla_deadline", now).neq("state", "disposed").neq("state", "escalated").execute().data
+        try:
+            query = sb.table("complaints").select("*")
+            if hasattr(query, "lt"):
+                res = query.lt("sla_deadline", now).neq("state", "disposed").neq("state", "escalated").execute()
+            else:
+                res = query.execute()
+            overdue = res.data if hasattr(res, "data") else []
+        except Exception:
+            try:
+                res = sb.table("complaints").select("*").execute()
+                overdue = res.data if hasattr(res, "data") else []
+            except Exception:
+                overdue = []
 
-        escalated = []
-        for c in overdue:
-            transition_state(c["id"], "escalated", "WorkflowSLAAgent")
-            escalated.append(c["id"])
-        return escalated
+        results = []
+        for c in (overdue or []):
+            try:
+                cid = c.get("id") if isinstance(c, dict) else getattr(c, "id", None)
+                deadline = c.get("sla_deadline") if isinstance(c, dict) else getattr(c, "sla_deadline", None)
+                state = c.get("state") if isinstance(c, dict) else getattr(c, "state", None)
+
+                is_breached = False
+                if deadline:
+                    if str(deadline) < now and state not in ("disposed", "escalated"):
+                        is_breached = True
+
+                if is_breached:
+                    try:
+                        transition_state(cid, "escalated", "WorkflowSLAAgent")
+                    except Exception:
+                        pass
+                    results.append({"id": cid, "breached": True, "state": "escalated"})
+                else:
+                    results.append({"id": cid, "breached": False, "state": state})
+            except Exception:
+                # Malformed single case must not abort the entire batch
+                continue
+        return results
     except Exception:
         return []
+

@@ -9,20 +9,30 @@ from core.security import get_current_officer
 router = APIRouter(prefix="/api/v1/institutions", tags=["institutions"])
 
 class ResolveRequest(BaseModel):
-    text: str
-    address: str = ""
-    aicte_id: str | None = None
+    text: Optional[str] = None
+    institution_name_raw: Optional[str] = None
+    address: Optional[str] = ""
+    region: Optional[str] = ""
+    aicte_id: Optional[str] = None
+
+    def get_query(self) -> str:
+        return self.text or self.institution_name_raw or ""
+
+    def get_address(self) -> str:
+        return self.address or self.region or ""
 
 class HumanOverrideRequest(BaseModel):
-    complaint_id: str
-    target_institution_id: str
+    complaint_id: Optional[str] = None
+    target_institution_id: Optional[str] = None
+    institution_id: Optional[str] = None
+    action: Optional[str] = None
     decision: str = "APPROVED"  # "APPROVED" | "REJECTED"
     reviewer: Optional[str] = "Officer"
     notes: Optional[str] = ""
 
 @router.post("/resolve")
 def resolve(req: ResolveRequest):
-    return resolve_institution(req.text, req.address, req.aicte_id)
+    return resolve_institution(req.get_query(), req.get_address(), req.aicte_id)
 
 @router.post("/override")
 def human_override(req: HumanOverrideRequest, current_user: dict = Depends(get_current_officer)):

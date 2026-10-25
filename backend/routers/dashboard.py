@@ -34,6 +34,11 @@ def risk_map():
 def forecast(institution_id: str, days: int = 30):
     return forecast_grievance_outbreak(institution_id, days)
 
+@router.get("/risk-score/{institution_id}")
+def risk_score(institution_id: str):
+    from agents.risk_predictive import compute_risk_score
+    return compute_risk_score(institution_id)
+
 @router.get("/clusters")
 def clusters():
     return cluster_institution_outbreaks()
