@@ -25,7 +25,7 @@ const mimeTypes = {
   ".pdf": "application/pdf"
 };
 
-const server = http.createServer((req, res) => {
+const handler = (req, res) => {
   // Simple health-check endpoint (useful for Render health checks)
   if (req.url === "/healthz") {
     res.writeHead(200, { "Content-Type": "application/json" });
@@ -61,20 +61,26 @@ const server = http.createServer((req, res) => {
       res.end(content, "utf-8");
     }
   });
-});
+};
 
-server.on("error", (err) => {
-  if (err.code === "EADDRINUSE") {
-    console.error(`\n❌ Error: Port ${PORT} is already in use by another process.`);
-    console.error(`To free Port ${PORT}, run:`);
-    console.error(`  lsof -ti :${PORT} | xargs kill -9\n`);
-  } else {
-    console.error("Server error:", err);
-  }
-  process.exit(1);
-});
+const server = http.createServer(handler);
 
-server.listen(PORT, () => {
-  console.log(`VIGIL Landing Page Server running at http://localhost:${PORT}/`);
-  console.log(`Health check available at http://localhost:${PORT}/healthz`);
-});
+if (require.main === module) {
+  server.on("error", (err) => {
+    if (err.code === "EADDRINUSE") {
+      console.error(`\n❌ Error: Port ${PORT} is already in use by another process.`);
+      console.error(`To free Port ${PORT}, run:`);
+      console.error(`  lsof -ti :${PORT} | xargs kill -9\n`);
+    } else {
+      console.error("Server error:", err);
+    }
+    process.exit(1);
+  });
+
+  server.listen(PORT, () => {
+    console.log(`VIGIL Landing Page Server running at http://localhost:${PORT}/`);
+    console.log(`Health check available at http://localhost:${PORT}/healthz`);
+  });
+}
+
+module.exports = handler;
