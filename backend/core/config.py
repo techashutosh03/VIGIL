@@ -16,9 +16,11 @@ class Settings:
 
     _raw_origins = os.getenv(
         "CORS_ORIGINS",
-        "http://localhost:3000,http://localhost:3001"
+        "http://localhost:3000,http://localhost:3001,https://vigil-rjcy.vercel.app,https://vigil-jade-ten.vercel.app"
     )
     CORS_ORIGINS: list[str] = [o.strip() for o in _raw_origins.split(",") if o.strip()]
+    if "*" not in CORS_ORIGINS and os.getenv("ALLOW_ALL_CORS", "true").lower() in ("true", "1"):
+        CORS_ORIGINS.append("*")
     ALLOWED_ORIGINS: list[str] = CORS_ORIGINS
 
 settings = Settings()
