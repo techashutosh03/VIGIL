@@ -1,4 +1,7 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "mkdir -p public && cp -r landing/* public/",
   "outputDirectory": "landing",
   "cleanUrls": true
 }
