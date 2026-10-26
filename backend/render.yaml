@@ -16,8 +16,10 @@ services:
       - key: GROQ_API_KEY
         sync: false
       - key: JWT_SECRET
-        sync: false
+        generateValue: true
       - key: CORS_ORIGINS
-        sync: false
+        value: "http://localhost:3000,http://localhost:3001,https://vigil-rjcy.vercel.app,https://vigil-jade-ten.vercel.app"
+      - key: ALLOW_ALL_CORS
+        value: "true"
       - key: PYTHON_VERSION
         value: "3.11.9"

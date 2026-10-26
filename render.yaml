@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: vigil-backend
+    runtime: python
+    region: singapore
+    plan: free
+    rootDir: backend
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    healthCheckPath: /healthz
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: GROQ_API_KEY
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGINS
+        value: "http://localhost:3000,http://localhost:3001,https://vigil-rjcy.vercel.app,https://vigil-jade-ten.vercel.app"
+      - key: ALLOW_ALL_CORS
+        value: "true"
+      - key: PYTHON_VERSION
+        value: "3.11.9"
